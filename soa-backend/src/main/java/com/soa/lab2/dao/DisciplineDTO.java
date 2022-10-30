@@ -1,0 +1,17 @@
+package com.soa.lab2.dao;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
+@NonNull
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class DisciplineDTO {
+    private int id;
+    private String name;
+    private int lectureHours;
+    private int selfStudyHours;
+}

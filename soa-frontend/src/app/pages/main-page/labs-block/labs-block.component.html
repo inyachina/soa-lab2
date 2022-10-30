@@ -1,0 +1,16 @@
+<div>
+  <mat-form-field class="example-form-field" appearance="outline">
+    <mat-label>Clearable input</mat-label>
+    <input matInput type="text" [(ngModel)]="value">
+    <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button
+    (click)="clickAddButton()"
+    mat-fab
+    color="primary"
+    aria-label="Example icon button with a delete icon">
+    <img src="../src/assets/img/plus.svg"/>
+  </button>
+</div>

@@ -1,0 +1,62 @@
+@import "fonts";
+@import "variables";
+
+.title{
+  font-family: 'Jua';
+}
+
+.flex_container {
+  display: flex;
+  align-items: center;
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.grid_container__halved {
+  display: grid;
+  grid-template-columns:50% 50%;
+}
+
+.container__absolute {
+  position: absolute;
+}
+
+.container__relative {
+  position: relative;
+}
+
+.container__centered{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8b72a0;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+button:hover, a:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+

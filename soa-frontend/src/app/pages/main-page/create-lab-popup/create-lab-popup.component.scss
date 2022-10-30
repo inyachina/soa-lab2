@@ -1,0 +1,51 @@
+@import "src/assets/style/variables";
+
+.lab_popup {
+  width: 600px;
+
+  .title_container {
+    margin-bottom: 2rem;
+    .title {
+      font-size: 2rem;
+    }
+  }
+
+  form {
+    ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+      padding: 0.4em 0px !important;
+    }
+
+    ::ng-deep .mat-form-field-label-wrapper {
+      top: -1.5em;
+    }
+
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0
+    }
+
+    ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+      transform: translateY(-1.1em) scale(.75);
+      width: 133.33333%;
+    }
+
+    .discipline_block{
+      .title{
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+        margin-top: -1.2rem;
+      }
+    }
+
+  }
+
+  .add_button__lab_popup {
+    background: $orange_color;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+  }
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+  background: red !important;
+}

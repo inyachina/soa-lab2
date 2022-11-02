@@ -1,0 +1,14 @@
+<mat-card class="lab_card"
+  (click)="selectLab()"
+>
+  <div class="flex_container__column">
+    <app-difficulty-scale
+      [difficulty] = 'lab.difficulty'
+    ></app-difficulty-scale>
+    <div class="id name"> {{lab.name}}</div>
+    <div>
+    <div class=" ">Discipline: {{lab.discipline.name}}</div>
+    <div class="date">{{lab.creationDate}}</div>
+    </div>
+  </div>
+</mat-card>

@@ -1,16 +1,32 @@
-<div>
-  <mat-form-field class="example-form-field" appearance="outline">
-    <mat-label>Clearable input</mat-label>
-    <input matInput type="text" [(ngModel)]="value">
-    <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-  <button
-    (click)="clickAddButton()"
-    mat-fab
-    color="primary"
-    aria-label="Example icon button with a delete icon">
-    <img src="../src/assets/img/plus.svg"/>
-  </button>
+<div class="labs_block">
+  <div>
+    <mat-card class="search_card ontainer__centered__start">
+      <mat-form-field class="search_field" appearance="fill">
+        <mat-label>Search lab</mat-label>
+        <input matInput type="text" [(ngModel)]="value">
+        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <button
+        (click)="clickAddButton()"
+        mat-raised-button
+        class="add_button"
+        aria-label="Example icon button with a delete icon">
+        New lab...
+      </button>
+      <mat-paginator [length]="200" [pageSizeOptions]="[10, 50, 100]" aria-label="Select page">
+      </mat-paginator>
+    </mat-card>
+    <div class="labs_grid">
+      <app-lab-card
+        *ngFor="let lab of labs"
+        [lab]="lab"
+      >
+      </app-lab-card>
+    </div>
+  </div>
+  <div class="filter_container">
+    <app-filter-accordion></app-filter-accordion>
+  </div>
 </div>

@@ -1,13 +1,20 @@
 @import "src/assets/style/variables";
 
 .lab_popup {
-  width: 600px;
+  width: 40rem;
+  padding: 0 2rem;
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
 
   .title_container {
     margin-bottom: 2rem;
-    .title {
-      font-size: 2rem;
-    }
+
   }
 
   form {
@@ -28,24 +35,24 @@
       width: 133.33333%;
     }
 
-    .discipline_block{
-      .title{
-        font-size: 1.2rem;
-        margin-right: 0.5rem;
-        margin-top: -1.2rem;
-      }
+    .number_block {
+      display: grid;
+      grid-template-columns: 25% 35% 35%;
+      gap: 1rem;
     }
-
   }
 
   .add_button__lab_popup {
-    background: $orange_color;
+    background: $base_color;
     padding: 0.5rem;
     font-size: 1.5rem;
   }
+
+  .discipline_block{
+    .subtitle{
+      margin-right: 0.5rem;
+      margin-top: -1.2rem;
+    }
+  }
 }
 
-.mat-dialog-container {
-  padding: 0 !important;
-  background: red !important;
-}

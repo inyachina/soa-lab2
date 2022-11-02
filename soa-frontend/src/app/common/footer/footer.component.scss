@@ -1,0 +1,39 @@
+@import "src/assets/style/variables";
+
+.footer {
+  background: $base_color;
+  height: 10rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  * {
+    color: $bg_color;
+  }
+
+  .title{
+    font-size: 1.1rem;
+  }
+  .subtitle{
+    color: #3f2f5a;
+    font-weight: bold;
+  }
+  .info {
+    display: grid;
+    grid-template-columns: 25% 65%;
+    width: 15rem;
+    gap: 0.5rem;
+    span, b {
+      color: #b0a8bf;
+      font-size: 0.8rem;
+      font-weight: lighter;
+    }
+  }
+
+  .itmo_label {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    margin-left: -3.5rem;
+  }
+}

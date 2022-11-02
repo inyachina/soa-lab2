@@ -10,20 +10,39 @@
         matInput
         formControlName="name">
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Minimal Point</mat-label>
-      <input
-        matInput
-        type="number"
-        formControlName="minimalPoint">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Personal Qualities Maximum</mat-label>
-      <input
-        type="number"
-        matInput
-        formControlName="personalQualitiesMaximum">
-    </mat-form-field>
+    <div class="number_block">
+      <div class="title subtitle">Set coordinates:</div>
+      <mat-form-field appearance="outline">
+        <mat-label>Minimal Point</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="x">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Personal Qualities Maximum</mat-label>
+        <input
+          type="number"
+          matInput
+          formControlName="y">
+      </mat-form-field>
+      <div class="title subtitle">Set points:</div>
+      <mat-form-field appearance="outline">
+        <mat-label>Minimal Point</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="minimalPoint">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Personal Qualities Maximum</mat-label>
+        <input
+          type="number"
+          matInput
+          formControlName="personalQualitiesMaximum">
+      </mat-form-field>
+    </div>
+
     <mat-form-field appearance="outline">
       <mat-label>Difficulty</mat-label>
       <mat-select formControlName="difficulty">
@@ -36,7 +55,7 @@
       </mat-select>
     </mat-form-field>
     <div class="discipline_block flex_container">
-      <div class="title">Choose discipline:</div>
+      <div class="title subtitle">Choose discipline:</div>
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Discipline</mat-label>
         <input type="text"
@@ -46,8 +65,8 @@
                formControlName="discipline"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredDisciplines | async" [value]="option">
-            {{option}}
+          <mat-option *ngFor="let option of filteredDisciplines | async" [value]="option.name">
+            {{option.name}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

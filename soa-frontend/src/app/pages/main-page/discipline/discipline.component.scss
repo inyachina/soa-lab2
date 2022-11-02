@@ -1,0 +1,9 @@
+.discipline_block{
+  min-height: 90vh;
+  ::ng-deep table {
+    width: 100%;
+    td:last-child {
+      width: 20px;
+    }
+  }
+}

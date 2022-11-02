@@ -16,6 +16,7 @@ public class Discipline {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(unique = true)
     private String name;
     @Nullable
     private int lectureHours;

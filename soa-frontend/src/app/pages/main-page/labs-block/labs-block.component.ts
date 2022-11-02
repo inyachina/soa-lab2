@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateLabPopupComponent} from "../create-lab-popup/create-lab-popup.component";
+import {TestLabs} from "../../../../data/Test";
 
 @Component({
   selector: 'app-labs-block',
@@ -10,8 +11,10 @@ import {CreateLabPopupComponent} from "../create-lab-popup/create-lab-popup.comp
 })
 export class LabsBlockComponent implements OnInit {
   public inputField = new FormControl(null);
-  public value = 'zhoopa';
+  public value = '';
   public isOpenPopup = false;
+
+  public labs = TestLabs;
 
   constructor(
     private dialog: MatDialog
@@ -19,13 +22,14 @@ export class LabsBlockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clickAddButton();
+    //todo remove
+    // this.clickAddButton();
   }
 
   public clickAddButton() {
     this.isOpenPopup = !this.isOpenPopup;
     this.dialog.open(CreateLabPopupComponent, {panelClass: "custom-dialog-container"}).afterClosed().subscribe(() => {
-      console.log("lala");
+
     })
   }
 

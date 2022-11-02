@@ -6,7 +6,7 @@ export interface Lab {
   creationDate: string;
   minimalPoint: number;
   personalQualitiesMaximum: number;
-  difficulty: DifficultyType;
+  difficulty: string;
   discipline: Discipline;
 }
 

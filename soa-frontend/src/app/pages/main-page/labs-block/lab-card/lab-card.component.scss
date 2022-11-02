@@ -1,0 +1,13 @@
+.lab_card{
+  position: relative;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  .name{
+    font-weight: bolder;
+    color: #3f2f5a;
+  }
+  .date{
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+}

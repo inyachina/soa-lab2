@@ -1,14 +1,17 @@
 @import "fonts";
 @import "variables";
 
-.title{
+.title {
   font-family: 'Jua';
 }
 
 .flex_container {
   display: flex;
   align-items: center;
-
+  &__start{
+    display: flex;
+    align-items: start;
+  }
   &__column {
     display: flex;
     flex-direction: column;
@@ -28,10 +31,15 @@
   position: relative;
 }
 
-.container__centered{
+.container__centered {
   display: flex;
   align-items: center;
   justify-content: center;
+  &__start{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -60,3 +68,22 @@ a {
   text-decoration: none;
 }
 
+.gap-1rem {
+  gap: 1rem;
+}
+
+.gap-05rem {
+  gap: 0.5rem;
+}
+
+.add_button {
+  position: absolute;
+  background: $base_color;
+  left: 0.8rem;
+  bottom: 1rem;
+}
+
+.mat-card{
+  border: 2px solid $base_color;
+  //border-radius: 0;
+}

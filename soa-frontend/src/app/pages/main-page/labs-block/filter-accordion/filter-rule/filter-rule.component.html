@@ -1,0 +1,31 @@
+<mat-expansion-panel
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{property.name}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="flex_container__start gap-1rem">
+    <div class="flex_container__column gap-05rem">
+      <b>Sort:</b>
+      <mat-radio-group class="flex_container__column gap-05rem" aria-label="Sort">
+        <mat-radio-button value="1">asceding</mat-radio-button>
+        <mat-radio-button value="2">desceding</mat-radio-button>
+      </mat-radio-group>
+    </div> <div class="flex_container__column gap-05rem">
+    <b>Filter:</b>
+    <mat-form-field appearance="outline">
+      <mat-label>Rule</mat-label>
+      <select matNativeControl>
+        <option value="starts_with">Starts with</option>
+        <option value="regex">Regex</option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>String</mat-label>
+      <input matInput>
+    </mat-form-field>
+  </div>
+  </div>
+</mat-expansion-panel>

@@ -1,0 +1,31 @@
+<mat-card
+  class="filter_block"
+>
+  <div class="title">Sort and Filter</div>
+  <div class="action_buttons">
+    <button mat-button (click)="accordion.openAll()">Expand All</button>
+    <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+  </div>
+  <div class="flex_container__column gap-05rem">
+    <mat-accordion multi>
+      <app-filter-rule
+        *ngFor="let property of properties"
+        [property]="property"
+      ></app-filter-rule>
+    </mat-accordion>
+    <div class="title">Coordinates</div>
+    <mat-accordion multi>
+      <app-filter-rule
+        *ngFor="let property of coordinatesProperties"
+        [property]="property"
+      ></app-filter-rule>
+    </mat-accordion>
+    <div class="title">Discipline</div>
+    <mat-accordion multi>
+      <app-filter-rule
+        *ngFor="let property of disciplineProperties"
+        [property]="property"
+      ></app-filter-rule>
+    </mat-accordion>
+  </div>
+</mat-card>

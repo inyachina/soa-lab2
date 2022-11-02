@@ -13,7 +13,7 @@ import {SERVER_URL} from "../../data/api";
 @Injectable({
   providedIn: 'root',
 })
-export class HttpService implements HttpService {
+export class HttpService {
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -43,9 +43,9 @@ export class HttpService implements HttpService {
   public getData<R>(
     url: string,
     params?: QueryParams,
-  ): Observable<ApiResponse<R>> {
+  ): Observable<R> {
     return this._http
-      .get<ApiResponse<R>>(SERVER_URL + url, {
+      .get<R>(SERVER_URL + url, {
         headers: this._createDefaultHeaders(),
         params: this._removeNullParams(params) || undefined,
       })
@@ -60,9 +60,9 @@ export class HttpService implements HttpService {
     url: string,
     body?: {},
     params?: QueryParams,
-  ): Observable<ApiResponse<R>> {
+  ): Observable<R> {
     return this._http
-      .put<ApiResponse<R>>(SERVER_URL + url, body, {
+      .put<R>(SERVER_URL + url, body, {
         headers: this._createDefaultHeaders(),
         params: this._removeNullParams(params) || undefined,
       })
@@ -78,9 +78,9 @@ export class HttpService implements HttpService {
     body?: {},
     params?: QueryParams,
     noAuth?: boolean,
-  ): Observable<ApiResponse<R>> {
+  ): Observable<R> {
     return this._http
-      .post<ApiResponse<R>>(SERVER_URL + url, body, {
+      .post<R>(SERVER_URL + url, body, {
         headers: this._createDefaultHeaders(noAuth),
         params: this._removeNullParams(params) || undefined,
       })
@@ -94,9 +94,9 @@ export class HttpService implements HttpService {
   public deleteData<R>(
     url: string,
     params?: QueryParams,
-  ): Observable<ApiResponse<R>> {
+  ): Observable<R> {
     return this._http
-      .delete<ApiResponse<R>>(SERVER_URL + url, {
+      .delete<R>(SERVER_URL + url, {
         headers: this._createDefaultHeaders(),
         params: this._removeNullParams(params) || undefined,
       })

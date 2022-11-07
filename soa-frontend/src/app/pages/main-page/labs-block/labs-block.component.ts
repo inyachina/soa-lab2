@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
-import {CreateLabPopupComponent} from "../create-lab-popup/create-lab-popup.component";
+import {LabForm} from "../lab-form/lab-form";
 import {TestLabs} from "../../../../data/Test";
 
 @Component({
@@ -28,7 +28,7 @@ export class LabsBlockComponent implements OnInit {
 
   public clickAddButton() {
     this.isOpenPopup = !this.isOpenPopup;
-    this.dialog.open(CreateLabPopupComponent, {panelClass: "custom-dialog-container"}).afterClosed().subscribe(() => {
+    this.dialog.open(LabForm, {panelClass: "custom-dialog-container"}).afterClosed().subscribe(() => {
 
     })
   }

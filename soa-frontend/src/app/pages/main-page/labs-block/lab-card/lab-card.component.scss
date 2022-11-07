@@ -1,12 +1,16 @@
-.lab_card{
+
+.lab_card {
+  padding: 1rem;
   position: relative;
   margin-top: 0.5rem;
   cursor: pointer;
-  .name{
+
+  .name {
     font-weight: bolder;
     color: #3f2f5a;
   }
-  .date{
+
+  .date {
     font-size: 0.8rem;
     margin-top: 0.5rem;
   }

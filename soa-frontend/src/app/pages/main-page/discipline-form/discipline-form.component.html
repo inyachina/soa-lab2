@@ -1,0 +1,35 @@
+<div class="discipline_form">
+  <div class="title_container container__centered">
+    <div class="title">Adding Discipline</div>
+  </div>
+  <form class="flex_container__column" [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input
+        class="colorful_input"
+        matInput
+        formControlName="name">
+    </mat-form-field>
+    <div class="number_block">
+      <mat-form-field appearance="outline">
+        <mat-label>Lecture Hours</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="lectureHours">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Self Study Hours</mat-label>
+        <input
+          type="number"
+          matInput
+          formControlName="selfStudyHours">
+      </mat-form-field>
+    </div>
+    <button
+      mat-raised-button
+      class="add_button__lab_form">
+      Save
+    </button>
+  </form>
+</div>

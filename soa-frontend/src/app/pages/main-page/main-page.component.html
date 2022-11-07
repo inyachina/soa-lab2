@@ -1,11 +1,15 @@
 <div class="main_page_container">
-  <mat-tab-group>
+  <mat-tab-group
+    #tab
+    [(selectedIndex)]="selectedIndex"
+    (selectedTabChange)="changeTab($event)">
 
 <!--    <mat-tab label="About">-->
 <!--      <app-intro-block></app-intro-block>-->
 <!--    </mat-tab>-->
 
-    <mat-tab  label="Labs">
+    <mat-tab
+      label="Labs">
       <app-labs-block></app-labs-block>
     </mat-tab>
     <mat-tab  label="Disciplines">

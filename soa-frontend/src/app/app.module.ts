@@ -13,7 +13,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CreateLabPopupComponent} from './pages/main-page/create-lab-popup/create-lab-popup.component';
+import {LabForm} from './pages/main-page/lab-form/lab-form';
 import {IntroBlockComponent} from './pages/main-page/intro-block/intro-block.component';
 import {LabsBlockComponent} from './pages/main-page/labs-block/labs-block.component';
 import {MatSelectModule} from "@angular/material/select";
@@ -24,7 +24,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {HttpClientModule} from '@angular/common/http';
-import {DisciplineComponent} from './pages/main-page/discipline/discipline.component';
+import {DisciplineComponent} from './pages/main-page/discipline-page/discipline.component';
 import {FilterAccordionComponent} from './pages/main-page/labs-block/filter-accordion/filter-accordion.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
@@ -35,6 +35,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {RouterModule, Routes} from "@angular/router";
 import { NotFountPageComponent } from './pages/main-page/not-fount-page/not-fount-page.component';
 import { LabPageComponent } from './pages/main-page/lab-page/lab-page.component';
+import { SuggestionPopupComponent } from './common/suggestion-popup/suggestion-popup.component';
+import { DisciplineFormComponent } from './pages/main-page/discipline-form/discipline-form.component';
 
 const appRoutes: Routes = [
   {path: '', component: MainPageComponent},
@@ -50,7 +52,7 @@ const appRoutes: Routes = [
     FooterComponent,
     IntroBlockComponent,
     LabsBlockComponent,
-    CreateLabPopupComponent,
+    LabForm,
     DisciplineComponent,
     FilterAccordionComponent,
     FilterRuleComponent,
@@ -58,6 +60,8 @@ const appRoutes: Routes = [
     DifficultyScaleComponent,
     NotFountPageComponent,
     LabPageComponent,
+    SuggestionPopupComponent,
+    DisciplineFormComponent,
   ],
   imports: [
     ReactiveFormsModule,

@@ -1,3 +1,10 @@
+@import "src/assets/style/variables";
+
+.new_discipline_button{
+  background: $accept_color;
+  margin: 0 0 1rem 1rem;
+}
+
 .discipline_block{
   min-height: 90vh;
   ::ng-deep table {

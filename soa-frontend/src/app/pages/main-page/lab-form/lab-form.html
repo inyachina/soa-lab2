@@ -1,6 +1,6 @@
-<div class="lab_popup">
+<div class="lab_form">
   <div class="title_container container__centered">
-    <div class="title">Adding lab</div>
+    <div class="title">{{!isEditMode ? 'Adding lab' : ('Lab ' + lab.id)}}</div>
   </div>
   <form class="flex_container__column" [formGroup]="form">
     <mat-form-field appearance="outline">
@@ -11,7 +11,7 @@
         formControlName="name">
     </mat-form-field>
     <div class="number_block">
-      <div class="title subtitle">Set coordinates:</div>
+      <div class="title subtitle">{{!isEditMode ? 'Set coordinates:' : 'Coordinates:'}}</div>
       <mat-form-field appearance="outline">
         <mat-label>Minimal Point</mat-label>
         <input
@@ -26,7 +26,7 @@
           matInput
           formControlName="y">
       </mat-form-field>
-      <div class="title subtitle">Set points:</div>
+      <div class="title subtitle">{{!isEditMode ? 'Set points' : "Points:"}}</div>
       <mat-form-field appearance="outline">
         <mat-label>Minimal Point</mat-label>
         <input
@@ -55,7 +55,7 @@
       </mat-select>
     </mat-form-field>
     <div class="discipline_block flex_container">
-      <div class="title subtitle">Choose discipline:</div>
+      <div class="title subtitle">{{!isEditMode ? 'Choose discipline:' : 'Discipline:'}}</div>
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Discipline</mat-label>
         <input type="text"
@@ -71,6 +71,28 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-    <button class="add_button__lab_popup title">Save</button>
+
+    <button
+      *ngIf="!isEditMode"
+      mat-raised-button
+      class="add_button__lab_form">
+      Save
+    </button>
+    <div
+      class="edit_buttons"
+      *ngIf="isEditMode">
+      <button
+        mat-raised-button
+        [disabled]="isFormChanged()"
+      >
+        edit
+      </button>
+      <button
+        (click)="deleteLab()"
+        class="delete_button"
+        mat-raised-button>
+        delete
+      </button>
+    </div>
   </form>
 </div>

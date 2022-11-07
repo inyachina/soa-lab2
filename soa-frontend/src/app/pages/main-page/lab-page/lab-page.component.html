@@ -1,9 +1,25 @@
 <div class="lab_page">
-  <mat-card class="lab_card">
-    <app-create-lab-popup
-      [editMode]="true"
+  <mat-tab-group
+    (selectedTabChange)="changeTab($event)"
+  >
+    <mat-tab
+      class="hidden_tab"
+      label="">
+    </mat-tab>
+    <mat-tab
+      label="Labs">
+    </mat-tab>
+    <mat-tab label="Disciplines">
+    </mat-tab>
+  </mat-tab-group>
 
-    >
-    </app-create-lab-popup>
-  </mat-card>
+  <div class="flex_container">
+    <mat-card class="lab_edit_card">
+      <app-lab-form
+        [editMode]="true"
+        [lab]="lab"
+      >
+      </app-lab-form>
+    </mat-card>
+  </div>
 </div>

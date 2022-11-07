@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateLabPopupComponent } from './create-lab-popup.component';
+import { DisciplineFormComponent } from './discipline-form.component';
 
-describe('CreateLabPopupComponent', () => {
-  let component: CreateLabPopupComponent;
-  let fixture: ComponentFixture<CreateLabPopupComponent>;
+describe('DisciplineFormComponent', () => {
+  let component: DisciplineFormComponent;
+  let fixture: ComponentFixture<DisciplineFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateLabPopupComponent ]
+      declarations: [ DisciplineFormComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CreateLabPopupComponent);
+    fixture = TestBed.createComponent(DisciplineFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

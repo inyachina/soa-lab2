@@ -1,6 +1,6 @@
 @import "src/assets/style/variables";
 
-.lab_popup {
+.lab_form {
   width: 40rem;
   padding: 0 2rem;
 
@@ -42,16 +42,23 @@
     }
   }
 
-  .add_button__lab_popup {
-    background: $base_color;
-    padding: 0.5rem;
-    font-size: 1.5rem;
+  .add_button__lab_form {
+    background: $accept_color;
   }
 
   .discipline_block{
     .subtitle{
       margin-right: 0.5rem;
       margin-top: -1.2rem;
+    }
+  }
+
+  .edit_buttons{
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+    .delete_button{
+      background: $warn_color;
     }
   }
 }

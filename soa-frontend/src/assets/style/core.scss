@@ -2,7 +2,8 @@
 @import "variables";
 
 .title {
-  font-family: 'Jua';
+  //font-family: 'Jua';
+  font-weight: bolder;
 }
 
 .flex_container {
@@ -75,15 +76,9 @@ a {
 .gap-05rem {
   gap: 0.5rem;
 }
-
-.add_button {
-  position: absolute;
-  background: $base_color;
-  left: 0.8rem;
-  bottom: 1rem;
+.mt-1{
+  margin-top: 1rem;
 }
-
 .mat-card{
-  border: 2px solid $base_color;
-  //border-radius: 0;
+  //border: 2px solid $base_color;
 }

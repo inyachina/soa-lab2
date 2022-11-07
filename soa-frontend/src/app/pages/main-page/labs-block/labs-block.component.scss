@@ -11,7 +11,8 @@
   .search_card {
     position: relative;
     .add_button{
-      background: $blue_color;
+      background: $accept_color;
+      margin: 0 0 1rem 1rem;
     }
     .search_field {
       width: 70%;

@@ -1,18 +1,23 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {DifficultyType, Discipline} from "../../../types/LabType";
+import {DifficultyType, Discipline, Lab} from "../../../types/LabType";
 import {map, Observable} from "rxjs";
 import {HttpService} from "../../../services/http.service";
 import {DISCIPLINE_URL} from "../../../../data/api";
+import {MatDialog} from "@angular/material/dialog";
+import {SuggestionPopupComponent} from "../../../common/suggestion-popup/suggestion-popup.component";
 
 @Component({
-  selector: 'app-create-lab-popup',
-  templateUrl: './create-lab-popup.component.html',
-  styleUrls: ['./create-lab-popup.component.scss']
+  selector: 'app-lab-form',
+  templateUrl: './lab-form.html',
+  styleUrls: ['./lab-form.scss']
 })
-export class CreateLabPopupComponent implements OnInit {
+export class LabForm implements OnInit {
   @Input('editMode')
   public isEditMode = false;
+
+  @Input('lab')
+  public lab!: Lab;
   public DifficultyType = Object.values(DifficultyType);
 
   public disciplines!: Discipline[];
@@ -35,6 +40,7 @@ export class CreateLabPopupComponent implements OnInit {
     private _fb: FormBuilder,
     private _http: HttpService,
     private _cdr: ChangeDetectorRef,
+    private _dialog: MatDialog,
   ) {
   }
 
@@ -55,5 +61,15 @@ export class CreateLabPopupComponent implements OnInit {
   private _filter(value: string): Discipline[] {
     const filterValue = value.toLowerCase();
     return this.disciplines.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
+  isFormChanged() {
+
+  }
+
+  deleteLab() {
+    this._dialog.open(SuggestionPopupComponent, {data: {
+      text: "Are you sure that you want delete this lab?"
+      }})
   }
 }

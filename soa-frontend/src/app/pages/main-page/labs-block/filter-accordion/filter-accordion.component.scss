@@ -4,16 +4,15 @@
   background: $base_color;
   top: 0;
   position: sticky;
+  .filter_title{
+    color: $light_text;
+  }
   .action_buttons {
     text-align: right;
     margin-top: -0.5rem;
     ::ng-deep button * {
-      color: #44385e;
+      color: #4e4468;
     }
-  }
-
-  .title{
-    font-size: 1.2rem;
   }
 
   ::ng-deep .mat-form-field-wrapper{

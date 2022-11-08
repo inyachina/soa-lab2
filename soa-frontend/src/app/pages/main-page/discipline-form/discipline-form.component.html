@@ -28,7 +28,9 @@
     </div>
     <button
       mat-raised-button
-      class="add_button__lab_form">
+      [disabled]="isDisabledButton()"
+      (click)="saveDiscipline()"
+  >
       Save
     </button>
   </form>

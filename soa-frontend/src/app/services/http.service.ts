@@ -83,12 +83,7 @@ export class HttpService {
       .post<R>(SERVER_URL + url, body, {
         headers: this._createDefaultHeaders(noAuth),
         params: this._removeNullParams(params) || undefined,
-      })
-      .pipe(
-        catchError<any, any>((err: HttpErrorResponse) =>
-          this._handleError(err),
-        ),
-      );
+      });
   }
 
   public deleteData<R>(

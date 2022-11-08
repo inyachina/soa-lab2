@@ -21,4 +21,20 @@ public class DisciplineServiceImpl implements DisciplineService {
     public List<Discipline> findAll() {
         return disciplineRepository.findAll();
     }
+
+    @Override
+    public Discipline save(Discipline discipline) {
+        return this.disciplineRepository.save(discipline);
+    }
+
+    @Override
+    public Discipline getById(Integer id) {
+        return this.disciplineRepository.getById(id);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        this.disciplineRepository.deleteById(id);
+    }
+
 }

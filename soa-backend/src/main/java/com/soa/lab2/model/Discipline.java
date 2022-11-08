@@ -1,5 +1,6 @@
 package com.soa.lab2.model;
 
+import com.soa.lab2.dao.DisciplineDTO;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.lang.Nullable;
@@ -21,4 +22,13 @@ public class Discipline {
     @Nullable
     private int lectureHours;
     private int selfStudyHours;
+
+    public Discipline() {
+    }
+
+    public Discipline(DisciplineDTO disciplineDTO) {
+        this.name = disciplineDTO.getName();
+        this.lectureHours = disciplineDTO.getLectureHours();
+        this.selfStudyHours = disciplineDTO.getSelfStudyHours();
+    }
 }

@@ -7,10 +7,12 @@
 
 .discipline_block{
   min-height: 90vh;
+  overflow: auto;
   ::ng-deep table {
     width: 100%;
     td:last-child {
-      width: 20px;
+      width: 10px;
+      padding-right: 10px;
     }
   }
 }

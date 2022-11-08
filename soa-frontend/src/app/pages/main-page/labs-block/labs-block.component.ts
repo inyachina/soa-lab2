@@ -3,6 +3,7 @@ import {FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {LabForm} from "../lab-form/lab-form";
 import {TestLabs} from "../../../../data/Test";
+import {HttpService} from "../../../services/http.service";
 
 @Component({
   selector: 'app-labs-block',
@@ -17,7 +18,8 @@ export class LabsBlockComponent implements OnInit {
   public labs = TestLabs;
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _http: HttpService,
   ) {
   }
 
@@ -28,8 +30,8 @@ export class LabsBlockComponent implements OnInit {
 
   public clickAddButton() {
     this.isOpenPopup = !this.isOpenPopup;
-    this.dialog.open(LabForm, {panelClass: "custom-dialog-container"}).afterClosed().subscribe(() => {
-
+    this.dialog.open(LabForm).afterClosed().subscribe((lab) => {
+      console.log(lab)
     })
   }
 

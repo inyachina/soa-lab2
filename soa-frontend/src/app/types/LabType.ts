@@ -11,6 +11,7 @@ export interface Lab {
 }
 
 export interface Discipline {
+  id?: number | null | undefined;
   name: string;
   lectureHours: number;
   selfStudyHours: number;

@@ -49,6 +49,8 @@ export class DisciplineComponent implements OnInit {
     this.dialog.open(DisciplineFormComponent)
       .afterClosed()
       .subscribe((res) => {
+        if (!res) return;
+
         this._http.postData<Discipline>(DISCIPLINE_URL, res).subscribe(
           (res: Discipline) => {
             this.getDisciplines()

@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Injector, Input} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {DifficultyType, Discipline, Lab} from "../../../types/LabType";
+import {DifficultyType, Discipline, Lab, LabMapperDTO} from "../../../types/LabType";
 import {map, Observable} from "rxjs";
 import {HttpService} from "../../../services/http.service";
 import {DISCIPLINE_URL, LABS_URL} from "../../../../data/api";
@@ -73,29 +73,32 @@ export class LabForm implements AfterViewInit {
     })
 
     this.$lab.subscribe((lab) => {
+      this.setLabForm(lab)
 
-      this.lab = lab
-      // @ts-ignore
-      this.form.controls.name.setValue(lab.name)
-      // @ts-ignore
-      this.form.controls.x.setValue(lab.x)
-      // @ts-ignore
-      this.form.controls.y.setValue(lab.y)
-      // @ts-ignore
-      this.form.controls.personalQualitiesMaximum.setValue(lab.personalQualitiesMaximum)
-      // @ts-ignore
-      this.form.controls.minimalPoint.setValue(lab.minimalPoint)
-      // @ts-ignore
-      this.form.controls.discipline.setValue(lab.discipline.name)
-      // @ts-ignore
-      this.form.controls.difficulty.setValue(lab.difficulty)
-      // @ts-ignore
-      this.form.controls.creationDate.setValue(lab.creationDate)
-      this.initialState = JSON.stringify(this.form.getRawValue())
-      this._cdr.markForCheck()
     })
   }
 
+  private setLabForm(lab: Lab) {
+    this.lab = lab
+    // @ts-ignore
+    this.form.controls.name.setValue(lab.name)
+    // @ts-ignore
+    this.form.controls.x.setValue(lab.x)
+    // @ts-ignore
+    this.form.controls.y.setValue(lab.y)
+    // @ts-ignore
+    this.form.controls.personalQualitiesMaximum.setValue(lab.personalQualitiesMaximum)
+    // @ts-ignore
+    this.form.controls.minimalPoint.setValue(lab.minimalPoint)
+    // @ts-ignore
+    this.form.controls.discipline.setValue(lab.discipline.name)
+    // @ts-ignore
+    this.form.controls.difficulty.setValue(lab.difficulty)
+    // @ts-ignore
+    this.form.controls.creationDate.setValue(lab.creationDate)
+    this.initialState = JSON.stringify(this.form.getRawValue())
+    this._cdr.markForCheck()
+  }
 
   private _filter(value: string): Discipline[] {
     const filterValue = value.toLowerCase();
@@ -125,8 +128,12 @@ export class LabForm implements AfterViewInit {
     })
   }
 
-  editLab(){
-
+  editLab() {
+    // @ts-ignore
+    this._http.putData<Lab>(LABS_URL + `/${this.lab?.id}`, LabMapperDTO(this.form.getRawValue(), this.form.getRawValue().discipline))
+      .subscribe((res) => {
+        this.setLabForm(res);
+      })
   }
 
   saveLab() {

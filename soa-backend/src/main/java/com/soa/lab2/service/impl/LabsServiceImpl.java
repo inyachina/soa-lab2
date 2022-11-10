@@ -1,6 +1,8 @@
 package com.soa.lab2.service.impl;
 
+import com.soa.lab2.dao.LabDTO;
 import com.soa.lab2.model.Lab;
+import com.soa.lab2.repository.DisciplineRepository;
 import com.soa.lab2.repository.LabsRepository;
 import com.soa.lab2.service.LabsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import java.util.Optional;
 @Service
 public class LabsServiceImpl implements LabsService {
     private LabsRepository labsRepository;
+    private DisciplineRepository disciplineRepository;
 
     @Autowired
-    public LabsServiceImpl(LabsRepository labsRepository) {
+    public LabsServiceImpl(LabsRepository labsRepository, DisciplineRepository disciplineRepository) {
         this.labsRepository = labsRepository;
+        this.disciplineRepository = disciplineRepository;
     }
 
     @Override
@@ -45,5 +49,24 @@ public class LabsServiceImpl implements LabsService {
     @Override
     public void deleteById(Integer id) {
         labsRepository.deleteById(id);
+    }
+
+    @Override
+    public Lab update(Integer id, LabDTO newLab) {
+        this.labsRepository.findById(id).map((lab -> {
+            lab.setName(newLab.getName());
+            lab.setX(newLab.getX());
+            lab.setY(newLab.getY());
+            lab.setDiscipline(this.disciplineRepository.getByName(newLab.getDisciplineName()).get());
+            lab.setDifficulty(newLab.getDifficulty());
+            lab.setMinimalPoint(newLab.getMinimalPoint());
+            lab.setPersonalQualitiesMaximum(newLab.getPersonalQualitiesMaximum());
+            return this.labsRepository.save(lab);
+        })).orElseGet(() -> {
+            Lab lab = new Lab(newLab, this.disciplineRepository.getByName(newLab.getDisciplineName()).get());
+            newLab.setId(id);
+            return this.labsRepository.save(lab);
+        });
+        return null;
     }
 }

@@ -58,4 +58,10 @@ public class LabsController {
         this.labsService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    private ResponseEntity updateLab(@PathVariable @Valid Integer id, @RequestBody @Valid LabDTO labDTO) {
+        this.labsService.update(id, labDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

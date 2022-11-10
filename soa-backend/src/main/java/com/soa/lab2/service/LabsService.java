@@ -1,8 +1,7 @@
 package com.soa.lab2.service;
 
+import com.soa.lab2.dao.LabDTO;
 import com.soa.lab2.model.Lab;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +17,6 @@ public interface LabsService {
     void delete(Lab entity);
 
     void deleteById(Integer id);
+
+    Lab update(Integer id, LabDTO labDTO);
 }

@@ -30,13 +30,18 @@ export class DisciplineComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   this.getDisciplines()
+    //todo remove
+    // this.clickAddButton()
+  }
+
+  public getDisciplines(){
     this._http.getData<Discipline[]>(DISCIPLINE_URL).subscribe((res: Discipline[]) => {
         this.dataSource.data = res;
         this.dataSource.paginator = this.paginator;
+        this._cdr.markForCheck();
       }
     )
-    //todo remove
-    // this.clickAddButton()
   }
 
   public clickAddButton() {
@@ -46,12 +51,16 @@ export class DisciplineComponent implements OnInit {
       .subscribe((res) => {
         this._http.postData<Discipline>(DISCIPLINE_URL, res).subscribe(
           (res: Discipline) => {
-            this.dataSource.data = [...this.dataSource.data, res]
-            this._cdr.detectChanges();
+            this.getDisciplines()
           }, (error => {
             if (error.status == 409) {
               this._snackBar.open('This discipline already exists', 'Close', {
-                duration: 30000,
+                duration: 5000,
+              });
+            }
+            else if (error.status == 400){
+              this._snackBar.open('Bad request', 'Close', {
+                duration: 5000,
               });
             }
           }))
@@ -67,8 +76,18 @@ export class DisciplineComponent implements OnInit {
       if (!res) return;
 
       this._http.deleteData(DISCIPLINE_URL + `/${discipline.id}`).subscribe((res) =>{
-        console.log(res)
-      })
+        this.getDisciplines()
+      }, (error => {
+        if (error.status == 409) {
+          this._snackBar.open('This discipline doesn\'t exist', 'Close', {
+            duration: 5000,
+          });
+        } else if (error.status == 400){
+          this._snackBar.open('Bad request', 'Close', {
+            duration: 5000,
+          });
+        }
+      }))
     })
   }
 }

@@ -1,15 +1,12 @@
 package com.soa.lab2.dao;
 
-import com.soa.lab2.model.Coordinates;
 import com.soa.lab2.model.Difficulty;
-import com.soa.lab2.model.Discipline;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
 @NonNull
@@ -23,8 +20,12 @@ public class LabDTO {
 
     private String name;
 
-    private Coordinates coordinates;
+    private double x;
 
+    @Nullable
+    private double y;
+
+    @Nullable
     private LocalDate creationDate;
 
     private int minimalPoint;
@@ -33,5 +34,5 @@ public class LabDTO {
 
     private Difficulty difficulty;
 
-    private Discipline discipline;
+    private String disciplineName;
 }

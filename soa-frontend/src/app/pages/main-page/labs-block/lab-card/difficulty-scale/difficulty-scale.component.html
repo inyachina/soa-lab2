@@ -1,4 +1,6 @@
-<div class="difficulty_scale flex_container">
+<div
+  [matTooltip]="title"
+  class="difficulty_scale flex_container">
   <div
     class="brain_icon"
     *ngFor="let i of [].constructor(amount)">

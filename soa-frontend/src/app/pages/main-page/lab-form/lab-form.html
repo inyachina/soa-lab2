@@ -1,6 +1,7 @@
+<!--<div *ngIf="!isEditMode || !!this.form.controls.name.getRawValue()" class="lab_form">-->
 <div class="lab_form">
   <div class="title_container container__centered">
-    <div class="title">{{!isEditMode ? 'Adding lab' : ('Lab ' + lab.id)}}</div>
+    <div class="title">{{!isEditMode ? 'Adding lab' : ('Lab ' + lab?.id)}}</div>
   </div>
   <form class="flex_container__column" [formGroup]="form">
     <mat-form-field appearance="outline">
@@ -13,20 +14,24 @@
     <div class="number_block">
       <div class="title subtitle">{{!isEditMode ? 'Set coordinates:' : 'Coordinates:'}}</div>
       <mat-form-field appearance="outline">
-        <mat-label>Minimal Point</mat-label>
+        <mat-label>X</mat-label>
         <input
           matInput
           type="number"
+          maxlength="5"
+          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
           formControlName="x">
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Personal Qualities Maximum</mat-label>
+        <mat-label>Y</mat-label>
         <input
           type="number"
+          maxlength="5"
+          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
           matInput
           formControlName="y">
       </mat-form-field>
-      <div class="title subtitle">{{!isEditMode ? 'Set points' : "Points:"}}</div>
+      <div class="title subtitle">{{!isEditMode ? 'Set points:' : "Points:"}}</div>
       <mat-form-field appearance="outline">
         <mat-label>Minimal Point</mat-label>
         <input
@@ -46,16 +51,16 @@
     <mat-form-field appearance="outline">
       <mat-label>Difficulty</mat-label>
       <mat-select formControlName="difficulty">
-        <option
-          *ngFor="let type of DifficultyType"
-          [value]="type"
-        >
-          {{type}}
-        </option>
+        <mat-option value="VERY_EASY">very easy</mat-option>
+        <mat-option value="NORMAL">normal</mat-option>
+        <mat-option value="VERY_HARD">very hard</mat-option>
+        <mat-option value="IMPOSSIBLE">impossible</mat-option>
+        <mat-option value="INSANE">insane</mat-option>
       </mat-select>
     </mat-form-field>
-    <div class="discipline_block flex_container">
+    <div class="discipline_block">
       <div class="title subtitle">{{!isEditMode ? 'Choose discipline:' : 'Discipline:'}}</div>
+
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Discipline</mat-label>
         <input type="text"
@@ -65,7 +70,7 @@
                formControlName="discipline"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredDisciplines | async" [value]="option.name">
+          <mat-option *ngFor="let option of filteredDisciplines | async" [value]="option?.name">
             {{option.name}}
           </mat-option>
         </mat-autocomplete>
@@ -84,7 +89,7 @@
       *ngIf="isEditMode">
       <button
         mat-raised-button
-        [disabled]="isFormChanged()"
+        [disabled]="isDisabledEditButton()"
       >
         edit
       </button>
@@ -97,3 +102,9 @@
     </div>
   </form>
 </div>
+
+<ng-template #nolab_block>
+  <div>
+    Something went wrong, there are no such lab
+  </div>
+</ng-template>

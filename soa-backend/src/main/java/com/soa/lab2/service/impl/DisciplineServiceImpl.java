@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DisciplineServiceImpl implements DisciplineService {
@@ -28,8 +29,13 @@ public class DisciplineServiceImpl implements DisciplineService {
     }
 
     @Override
-    public Discipline getById(Integer id) {
+    public Optional<Discipline> getById(Integer id) {
         return this.disciplineRepository.getById(id);
+    }
+
+    @Override
+    public Optional<Discipline> getByName(String name) {
+        return this.disciplineRepository.getByName(name);
     }
 
     @Override

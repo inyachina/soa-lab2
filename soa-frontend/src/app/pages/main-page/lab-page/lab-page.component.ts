@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Lab} from "../../../types/LabType";
-import {TestLabs} from "../../../../data/Test";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {HttpService} from "../../../services/http.service";
+import {LABS_URL} from "../../../../data/api";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-lab-page',
@@ -10,14 +12,21 @@ import {MatTabChangeEvent} from "@angular/material/tabs";
   styleUrls: ['./lab-page.component.scss']
 })
 export class LabPageComponent implements OnInit {
-  public lab!: Lab;
+  public $lab!: Observable<Lab>;
 
   constructor(
     private _router: Router,
-  ) { }
+    private _route: ActivatedRoute,
+    private _cdr: ChangeDetectorRef,
+    private _http: HttpService
+  ) {
+  }
 
   ngOnInit(): void {
-    this.lab = TestLabs[0];
+    this._route.params.subscribe((params: Params) => {
+      const id = params['id']
+      this.$lab = this._http.getData<Lab>(LABS_URL + `/${id}`)
+    });
   }
 
   redirect(tab: string) {

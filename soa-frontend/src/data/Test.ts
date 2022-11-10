@@ -3,7 +3,7 @@ import {Discipline, Lab} from '../app/types/LabType'
 export const TestLabs: Lab[] = [
   {
     id: 1,
-    name: "name",
+    name: "name22222222222222222222222222222222222222222222222222222222222222222",
     x: 2,
     y: 1,
     creationDate: "22.12.2021",

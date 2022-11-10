@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,14 +23,6 @@ public class DisciplineController {
         this.disciplineService = disciplineService;
     }
 
-    @ExceptionHandler(PSQLException.class)
-    @ResponseStatus(HttpStatus.ALREADY_REPORTED)
-    public ResponseEntity handleException(PSQLException e) {
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(new ExceptionResponse(e.getClass().getName(), e.getMessage()));
-    }
-
     @GetMapping
     private ResponseEntity getDisciplines() {
         List<Discipline> disciplines = disciplineService.findAll();
@@ -38,7 +31,7 @@ public class DisciplineController {
     }
 
     @PostMapping
-    private ResponseEntity saveDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
+    private ResponseEntity saveDiscipline(@RequestBody @Valid DisciplineDTO disciplineDTO) {
         Discipline discipline = this.disciplineService.save(new Discipline(disciplineDTO));
         return ResponseEntity.ok().body(discipline);
     }
@@ -46,7 +39,7 @@ public class DisciplineController {
     @DeleteMapping("/{id}")
     private ResponseEntity deleteDiscipline(@PathVariable Integer id){
         this.disciplineService.deleteById(id);
-        return (ResponseEntity) ResponseEntity.ok();
+        return ResponseEntity.ok().body(id);
     }
 
 }

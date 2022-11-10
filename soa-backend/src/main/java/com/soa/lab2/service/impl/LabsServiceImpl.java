@@ -4,11 +4,10 @@ import com.soa.lab2.model.Lab;
 import com.soa.lab2.repository.LabsRepository;
 import com.soa.lab2.service.LabsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LabsServiceImpl implements LabsService {
@@ -20,20 +19,22 @@ public class LabsServiceImpl implements LabsService {
     }
 
     @Override
-    public List<Lab> findAll(Sort sort, Pageable pageable) {
-        return null;
-    }
     public List<Lab> findAll() {
-        return null;
+        return this.labsRepository.findAll();
     }
+
+    //    @Override
+//    public List<Lab> findAll(Sort sort, Pageable pageable) {
+//        return null;
+//    }
     @Override
     public Lab save(Lab entity) {
         return labsRepository.save(entity);
     }
 
     @Override
-    public Lab getById(Integer id) {
-        return labsRepository.getById(id);
+    public Optional<Lab> findById(Integer id) {
+        return labsRepository.findById(id);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class LabsServiceImpl implements LabsService {
     }
 
     @Override
-    public void deleteById(Lab lab) {
-        labsRepository.deleteById(lab);
+    public void deleteById(Integer id) {
+        labsRepository.deleteById(id);
     }
 }

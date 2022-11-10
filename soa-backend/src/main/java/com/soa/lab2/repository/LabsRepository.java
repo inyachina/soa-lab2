@@ -4,6 +4,7 @@ import com.soa.lab2.model.Lab;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LabsRepository extends CrudRepository<Lab, Integer> {
 
@@ -11,9 +12,9 @@ public interface LabsRepository extends CrudRepository<Lab, Integer> {
 
     Lab save(Lab entity);
 
-    Lab getById(Integer id);
+    Optional<Lab> findById(Integer integer);
 
     void delete(Lab entity);
 
-    void deleteById(Lab lab);
+    void deleteById(Integer id);
 }

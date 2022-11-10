@@ -4,6 +4,7 @@ import com.soa.lab2.dao.LabDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,9 +22,10 @@ public class Lab {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "coordinates_id")
-    private Coordinates coordinates;
+    private double x;
+
+    @Nullable
+    private double y;
 
     private LocalDate creationDate;
 
@@ -37,13 +39,14 @@ public class Lab {
     @JoinColumn(name = "discipline_id")
     private Discipline discipline;
 
-    public Lab(LabDTO labDTO){
+    public Lab(LabDTO labDTO, Discipline discipline) {
         this.name = labDTO.getName();
-        this.coordinates = labDTO.getCoordinates();
+        this.x = labDTO.getX();
+        this.y = labDTO.getY();
         this.creationDate = LocalDate.now();
         this.minimalPoint = labDTO.getMinimalPoint();
         this.personalQualitiesMaximum = labDTO.getPersonalQualitiesMaximum();
         this.difficulty = labDTO.getDifficulty();
-        this.discipline = labDTO.getDiscipline();
+        this.discipline = discipline;
     }
 }

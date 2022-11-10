@@ -47,9 +47,11 @@
   }
 
   .discipline_block{
+    display: grid;
+    grid-template-columns: 30% 70%;
     .subtitle{
-      margin-right: 0.5rem;
-      margin-top: -1.2rem;
+      //margin-right: 0.5rem;
+      //margin-top: -1.2rem;
     }
   }
 

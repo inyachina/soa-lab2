@@ -5,16 +5,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LabsService {
 
-    List<Lab> findAll(Sort sort, Pageable pageable);
+    List<Lab> findAll();
 
     Lab save(Lab entity);
 
-    Lab getById(Integer id);
+    Optional<Lab> findById(Integer integer);
 
     void delete(Lab entity);
 
-    void deleteById(Lab lab);
+    void deleteById(Integer id);
 }

@@ -37,6 +37,8 @@ import { NotFountPageComponent } from './pages/main-page/not-fount-page/not-foun
 import { LabPageComponent } from './pages/main-page/lab-page/lab-page.component';
 import { SuggestionPopupComponent } from './common/suggestion-popup/suggestion-popup.component';
 import { DisciplineFormComponent } from './pages/main-page/discipline-form/discipline-form.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {TruncatePipe} from "./services/truncate.pipe";
 
 const appRoutes: Routes = [
   {path: '', component: MainPageComponent},
@@ -62,6 +64,7 @@ const appRoutes: Routes = [
     LabPageComponent,
     SuggestionPopupComponent,
     DisciplineFormComponent,
+    TruncatePipe,
   ],
   imports: [
     ReactiveFormsModule,
@@ -85,6 +88,7 @@ const appRoutes: Routes = [
     MatTabsModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatTooltipModule,
     MatMenuModule,
     MatPaginatorModule, BrowserModule, RouterModule.forRoot(appRoutes)
   ],

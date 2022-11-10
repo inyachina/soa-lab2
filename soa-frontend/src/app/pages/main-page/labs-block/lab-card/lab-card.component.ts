@@ -18,7 +18,6 @@ export class LabCardComponent implements OnInit {
   }
 
   public selectLab() {
-    console.log(1)
     this.router.navigate([`/lab`, {
       id: this.lab.id
     }

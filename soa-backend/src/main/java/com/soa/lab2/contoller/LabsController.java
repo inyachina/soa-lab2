@@ -39,6 +39,14 @@ public class LabsController {
         else return ResponseEntity.ok().body(labs);
     }
 
+    @GetMapping("/all")
+    private ResponseEntity getLabs() {
+        List<Lab> labs = labsService.findAll();
+        if (labs.isEmpty()) throw new EmptyCollectionException();
+
+        else return ResponseEntity.ok().body(labs);
+    }
+
     @PostMapping
     private ResponseEntity<Lab> saveLab(@RequestBody LabDTO labDTO) {
         Optional<Discipline> discipline = this.disciplineService.getByName(labDTO.getDisciplineName());

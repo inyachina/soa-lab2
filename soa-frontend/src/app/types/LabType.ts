@@ -54,3 +54,8 @@ export const DifficultyTypeMapper: Record<DifficultyType, string> = {
   [DifficultyType.IMPOSSIBLE]: 'impossible',
   [DifficultyType.INSANE]: 'insane',
 }
+
+export interface SortFilterType {
+  size: number,
+  page: number
+}

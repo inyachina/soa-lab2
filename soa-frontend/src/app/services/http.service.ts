@@ -83,7 +83,11 @@ export class HttpService {
       .post<R>(SERVER_URL + url, body, {
         headers: this._createDefaultHeaders(noAuth),
         params: this._removeNullParams(params) || undefined,
-      });
+      }).pipe(
+        catchError<any, any>((err: HttpErrorResponse) =>
+          this._handleError(err),
+        ),
+      );
   }
 
   public deleteData<R>(
@@ -103,33 +107,18 @@ export class HttpService {
   }
 
   private _handleError(e: HttpErrorResponse): Observable<Error> {
-    const code = e.status;
+    console.log(12)
+    this._snackBar.open(e.error.message || "Something went wrong", 'Close', {
+      duration: 3000,
+    });
 
-    switch (code) {
-      case 500:
-        this._snackBar.open('Непредвиденная ошибка', 'Закрыть', {
-          duration: 3000,
-        });
-        break;
-
-      case 502:
-        this._snackBar.open('Сервис временно недоступен', 'Закрыть', {
-          duration: 3000,
-        });
-        break;
-
-      case 403:
-
-        if (this._router.url.indexOf('/login/') === -1) {
-          this._router.navigateByUrl('login');
+    if (e.status == 404){
+      this._router.navigate(['/'],{
+        queryParams: {
+          tab: 'labs'
         }
-
-        break;
-
-      default:
-        break;
+      } )
     }
-
     return throwError(e);
   }
 }

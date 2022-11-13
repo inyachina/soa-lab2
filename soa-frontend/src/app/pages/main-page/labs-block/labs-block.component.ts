@@ -1,11 +1,12 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {LabForm} from "../lab-form/lab-form";
 import {HttpService} from "../../../services/http.service";
 import {LABS_URL} from "../../../../data/api";
-import {Lab, LabMapperDTO} from "../../../types/LabType";
+import {DifficultyType, Lab, LabMapperDTO} from "../../../types/LabType";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {AveragePopupComponent} from "./average-popup/average-popup.component";
+import {DeletePopupComponent} from "./delete-popup/delete-popup.component";
 
 @Component({
   selector: 'app-labs-block',
@@ -13,9 +14,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./labs-block.component.scss']
 })
 export class LabsBlockComponent implements OnInit {
-  public inputField = new FormControl(null);
-  public value = '';
-  public isOpenPopup = false;
   public labs: Lab[] = [];
 
   constructor(
@@ -33,14 +31,16 @@ export class LabsBlockComponent implements OnInit {
   }
 
   public getLabs() {
-    this._http.getData<Lab[]>(LABS_URL).subscribe((res) => {
+    this._http.getData<Lab[]>(LABS_URL, {
+      page: 0,
+      size: 20
+    }).subscribe((res) => {
       this.labs = res;
       this._cdr.markForCheck();
     })
   }
 
   public clickAddButton() {
-    this.isOpenPopup = !this.isOpenPopup;
     this.dialog.open(LabForm).afterClosed()
       .subscribe((lab: Lab) => {
         // @ts-ignore
@@ -50,18 +50,38 @@ export class LabsBlockComponent implements OnInit {
                 duration: 3000,
               });
               this.getLabs()
-            }, (error) => {
-              if (error.status == 404) {
-                this._snackBar.open('This discipline doesn\'t exist', 'Close', {
-                  duration: 5000,
-                });
-              } else if (error.status == 400) {
-                this._snackBar.open('Bad request', 'Close', {
-                  duration: 5000,
-                });
-              }
             }
           )
       });
+  }
+
+  clickAverageMinPointButton() {
+    this._http.getData<number>(LABS_URL + '/average/minimal_point').subscribe((res) => {
+      this.dialog.open(AveragePopupComponent, {
+        data: res,
+        panelClass: 'green-dialog'
+      })
+    })
+  }
+
+  clickDeleteByDifficultyButton() {
+    this.dialog.open(DeletePopupComponent).afterClosed().subscribe((
+      res: {
+        flag: boolean,
+        difficultyType: DifficultyType
+      }
+    ) => {
+      if (!res.flag) return;
+
+      this._http.deleteData<number>(LABS_URL + '/delete_by/difficulty', {difficulty: res.difficultyType})
+        .subscribe((res) => {
+          console.log(res)
+        this._snackBar.open('Lab was successfully deleted', 'Close', {
+          duration: 3000,
+        });
+        // this.getLabs();
+      })
+    })
+
   }
 }

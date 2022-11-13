@@ -12,7 +12,7 @@
     position: relative;
     .add_button{
       background: $accept_color;
-      margin: 0 0 1rem 1rem;
+      //margin: 0 0 1rem 1rem;
     }
     .search_field {
       width: 70%;
@@ -25,10 +25,12 @@
   margin-top: 0.5rem;
   display: grid;
   grid-template-columns: 32.9% 32.9% 32.9%;
-  gap: 0.54%;
+  column-gap: 0.7%;
 }
 
-.filter_container{
-  //min-height: 100%;
-  //background: #8b72a0;
+.lab_paginator{l{
+    //font-size: 0.7rem;
+    color: #1a1a1a;
+  }
 }
+

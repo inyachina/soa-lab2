@@ -1,13 +1,17 @@
 package com.soa.lab2.service.impl;
 
 import com.soa.lab2.dao.LabDTO;
+import com.soa.lab2.exception.NoEntityException;
+import com.soa.lab2.model.Difficulty;
 import com.soa.lab2.model.Lab;
 import com.soa.lab2.repository.DisciplineRepository;
 import com.soa.lab2.repository.LabsRepository;
 import com.soa.lab2.service.LabsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,10 +31,11 @@ public class LabsServiceImpl implements LabsService {
         return this.labsRepository.findAll();
     }
 
-    //    @Override
-//    public List<Lab> findAll(Sort sort, Pageable pageable) {
-//        return null;
-//    }
+    @Override
+    public List<Lab> findAll(Pageable pageable) {
+        return this.labsRepository.findAll(pageable);
+    }
+
     @Override
     public Lab save(Lab entity) {
         return labsRepository.save(entity);
@@ -52,6 +57,15 @@ public class LabsServiceImpl implements LabsService {
     }
 
     @Override
+    public void deleteByDifficulty(Difficulty difficulty) {
+        List<Lab> labs = this.labsRepository.findByDifficulty(difficulty);
+
+        if (labs.isEmpty()) throw new NoEntityException("There is no a single lab with such difficulty");
+        this.labsRepository.delete(labs.get(0));
+    }
+
+    @Override
+    @Transactional
     public Lab update(Integer id, LabDTO newLab) {
         this.labsRepository.findById(id).map((lab -> {
             lab.setName(newLab.getName());

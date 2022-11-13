@@ -30,10 +30,10 @@ export class LabForm implements AfterViewInit {
     {
       // name: [null, Validators.required],
       // x: [null, Validators.compose([Validators.required, Validators.max(295)])],
-      // y: [null],
+      // y: [null , Validators.min(0)],
       // creationDate: [null, Validators.required],
-      // minimalPoint: [null, Validators.required],
-      // personalQualitiesMaximum: [null, Validators.required],
+      // minimalPoint: [null, Validators.compose([Validators.required, Validators.min(0)])],
+      // personalQualitiesMaximum: [null, Validators.compose([Validators.required, Validators.min(0)])],
       // difficulty: [null, Validators.required],
       // discipline: [null, Validators.required],
       name: ["name", Validators.required],
@@ -72,9 +72,8 @@ export class LabForm implements AfterViewInit {
       this.disciplines = res;
     })
 
-    this.$lab.subscribe((lab) => {
+    this.$lab?.subscribe((lab) => {
       this.setLabForm(lab)
-
     })
   }
 
@@ -119,10 +118,6 @@ export class LabForm implements AfterViewInit {
               tab: 'labs'
             }
           })
-        }, (error) => {
-          this._snackBar.open('Something went wrong', 'Close', {
-            duration: 5000,
-          });
         }
       )
     })

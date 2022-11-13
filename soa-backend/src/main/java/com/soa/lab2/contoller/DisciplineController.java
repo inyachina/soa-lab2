@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+//import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,7 +31,7 @@ public class DisciplineController {
     }
 
     @PostMapping
-    private ResponseEntity saveDiscipline(@RequestBody @Valid DisciplineDTO disciplineDTO) {
+    private ResponseEntity saveDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
         Discipline discipline = this.disciplineService.save(new Discipline(disciplineDTO));
         return ResponseEntity.ok().body(discipline);
     }

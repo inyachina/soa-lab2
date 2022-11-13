@@ -21,6 +21,7 @@
           maxlength="5"
           oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
           formControlName="x">
+        <mat-error *ngIf="form.controls.x.invalid">Should be number < 295</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Y</mat-label>
@@ -38,6 +39,8 @@
           matInput
           type="number"
           formControlName="minimalPoint">
+
+        <mat-error *ngIf="form.controls.minimalPoint.invalid">Should be non-negative number</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Personal Qualities Maximum</mat-label>
@@ -45,9 +48,9 @@
           type="number"
           matInput
           formControlName="personalQualitiesMaximum">
+        <mat-error *ngIf="form.controls.personalQualitiesMaximum.invalid">Should be non-negative number</mat-error>
       </mat-form-field>
     </div>
-
     <mat-form-field appearance="outline">
       <mat-label>Difficulty</mat-label>
       <mat-select formControlName="difficulty">
@@ -79,6 +82,7 @@
 
     <button
       *ngIf="!isEditMode"
+      [disabled]="isDisabledSaveButton()"
       (click)="saveLab()"
       mat-raised-button
       class="add_button__lab_form">

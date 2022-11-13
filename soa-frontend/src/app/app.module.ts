@@ -39,6 +39,8 @@ import { SuggestionPopupComponent } from './common/suggestion-popup/suggestion-p
 import { DisciplineFormComponent } from './pages/main-page/discipline-form/discipline-form.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {TruncatePipe} from "./services/truncate.pipe";
+import { AveragePopupComponent } from './pages/main-page/labs-block/average-popup/average-popup.component';
+import { DeletePopupComponent } from './pages/main-page/labs-block/delete-popup/delete-popup.component';
 
 const appRoutes: Routes = [
   {path: '', component: MainPageComponent},
@@ -65,6 +67,8 @@ const appRoutes: Routes = [
     SuggestionPopupComponent,
     DisciplineFormComponent,
     TruncatePipe,
+    AveragePopupComponent,
+    DeletePopupComponent,
   ],
   imports: [
     ReactiveFormsModule,

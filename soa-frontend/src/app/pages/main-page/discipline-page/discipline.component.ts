@@ -54,18 +54,7 @@ export class DisciplineComponent implements OnInit {
         this._http.postData<Discipline>(DISCIPLINE_URL, res).subscribe(
           (res: Discipline) => {
             this.getDisciplines()
-          }, (error => {
-            if (error.status == 409) {
-              this._snackBar.open('This discipline already exists', 'Close', {
-                duration: 5000,
-              });
-            }
-            else if (error.status == 400){
-              this._snackBar.open('Bad request', 'Close', {
-                duration: 5000,
-              });
-            }
-          }))
+          })
       })
   }
 
@@ -79,17 +68,7 @@ export class DisciplineComponent implements OnInit {
 
       this._http.deleteData(DISCIPLINE_URL + `/${discipline.id}`).subscribe((res) =>{
         this.getDisciplines()
-      }, (error => {
-        if (error.status == 409) {
-          this._snackBar.open('This discipline doesn\'t exist', 'Close', {
-            duration: 5000,
-          });
-        } else if (error.status == 400){
-          this._snackBar.open('Bad request', 'Close', {
-            duration: 5000,
-          });
-        }
-      }))
+      })
     })
   }
 }

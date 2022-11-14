@@ -12,20 +12,17 @@
         *ngFor="let property of properties"
         [property]="property"
       ></app-filter-rule>
-    </mat-accordion>
-    <div class="filter_title mt-1">Coordinates</div>
-    <mat-accordion multi>
+      <div class="filter_title mt-1">Coordinates</div>
       <app-filter-rule
         *ngFor="let property of coordinatesProperties"
         [property]="property"
       ></app-filter-rule>
-    </mat-accordion>
-    <div class="filter_title mt-1">Discipline</div>
-    <mat-accordion multi>
+      <div class="filter_title mt-1">Discipline</div>
       <app-filter-rule
         *ngFor="let property of disciplineProperties"
         [property]="property"
       ></app-filter-rule>
     </mat-accordion>
+    <button class="search_button" mat-raised-button>Search</button>
   </div>
 </mat-card>

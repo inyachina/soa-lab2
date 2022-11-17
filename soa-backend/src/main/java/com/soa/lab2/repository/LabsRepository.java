@@ -10,15 +10,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LabsRepository extends CrudRepository<Lab, Integer>, JpaSpecificationExecutor<Lab> {
+
     List<Lab> findAll();
 
     List<Lab> findAll(Pageable pageable);
 
-    List<Lab>  findByDifficulty(Difficulty difficulty);
+    List<Lab> findByDifficulty(Difficulty difficulty);
 
     Lab save(Lab entity);
 
     Optional<Lab> findById(Integer integer);
+
+    long count();
 
     void delete(Lab entity);
 

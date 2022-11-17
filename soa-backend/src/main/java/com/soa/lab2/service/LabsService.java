@@ -17,6 +17,8 @@ public interface LabsService {
 
     Optional<Lab> findById(Integer integer);
 
+    long count();
+
     void delete(Lab entity);
 
     void deleteById(Integer id);

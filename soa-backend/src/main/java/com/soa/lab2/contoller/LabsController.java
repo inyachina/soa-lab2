@@ -47,6 +47,10 @@ public class LabsController {
         else return ResponseEntity.ok().body(labs);
     }
 
+    @GetMapping("/amount")
+    private ResponseEntity getLabsAmount() {
+        return ResponseEntity.ok().body(this.labsService.count());
+    }
     @PostMapping
     private ResponseEntity<Lab> saveLab(@RequestBody LabDTO labDTO) {
         Optional<Discipline> discipline = this.disciplineService.getByName(labDTO.getDisciplineName());

@@ -10,10 +10,7 @@ import {MatRadioChange} from "@angular/material/radio";
 export class FilterRuleComponent implements OnInit {
 
   @Input("property")
-  public property!: {
-    name: string,
-    formGroup: FormGroup
-  }
+  public property!: any
 
   public filterControl!: FormControl;
   public sortControl!: FormControl;

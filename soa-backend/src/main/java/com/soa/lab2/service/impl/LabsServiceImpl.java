@@ -47,6 +47,11 @@ public class LabsServiceImpl implements LabsService {
     }
 
     @Override
+    public long count() {
+        return this.labsRepository.count();
+    }
+
+    @Override
     public void delete(Lab entity) {
         labsRepository.delete(entity);
     }

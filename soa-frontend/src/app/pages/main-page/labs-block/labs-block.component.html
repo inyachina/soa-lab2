@@ -1,5 +1,5 @@
 <div class="labs_block">
-  <div>
+  <div class="left_side">
     <mat-card class="search_card ontainer__centered__start">
       <div class="flex_container__space">
         <div class="flex_container gap-1rem">
@@ -23,47 +23,32 @@
             Delete by difficulty
           </button>
         </div>
-        <div class="lab_paginator flex_container">
-          <div class="per_page flex_container">
-            <label>
-              Items per page:
-            </label>
-            <mat-form-field>
-              <mat-select>
-                <mat-option>10</mat-option>
-                <mat-option>25</mat-option>
-                <mat-option>50</mat-option>
-                <mat-option>100</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="page_num">
-            <label>
-              Page: {{1}}
-            </label>
-          </div>
-          <div class="lab_slider flex_container">
-            <mat-icon>
-              keyboard_arrow_left
-            </mat-icon>
-            <mat-icon>
-              keyboard_arrow_right
-            </mat-icon>
-          </div>
-        </div>
       </div>
-      <mat-paginator [length]="200" [pageSizeOptions]="[10, 50, 100]" aria-label="Select page">
+      <mat-paginator [length]="labAmount"
+                     [pageIndex]="pageIndex"
+                     [pageSize]="pageSize"
+                     [pageSizeOptions]="pageSizeOptions"
+                     (page)="onPageChange($event)">
       </mat-paginator>
 
-
     </mat-card>
-    <div class="labs_grid">
-      <app-lab-card
-        *ngFor="let lab of labs"
-        [lab]="lab"
-      >
-      </app-lab-card>
+    <div>
+      <div class="labs_grid">
+        <app-lab-card
+          *ngFor="let lab of labs"
+          [lab]="lab"
+        >
+        </app-lab-card>
+      </div>
     </div>
+    <mat-paginator
+      class="bottom_paginator"
+      *ngIf="labs.length > 12" [length]="labAmount"
+                   [pageIndex]="pageIndex"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
   </div>
   <div class="filter_container">
     <app-filter-accordion></app-filter-accordion>

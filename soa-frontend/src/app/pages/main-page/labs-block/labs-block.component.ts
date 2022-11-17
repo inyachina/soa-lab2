@@ -15,6 +15,10 @@ import {DeletePopupComponent} from "./delete-popup/delete-popup.component";
 })
 export class LabsBlockComponent implements OnInit {
   public labs: Lab[] = [];
+  public pageIndex = 0;
+  public pageSize = 15;
+  public pageSizeOptions = [5, 10, 15, 25, 50, 100];
+  public labAmount?: number;
 
   constructor(
     private dialog: MatDialog,
@@ -30,10 +34,14 @@ export class LabsBlockComponent implements OnInit {
     // this.clickAddButton();
   }
 
+
   public getLabs() {
+    this._http.getData<number>(LABS_URL + '/amount').subscribe((res) => {
+      this.labAmount = res;
+    })
     this._http.getData<Lab[]>(LABS_URL, {
-      page: 0,
-      size: 20
+      page: this.pageIndex,
+      size: this.pageSize
     }).subscribe((res) => {
       this.labs = res;
       this._cdr.markForCheck();
@@ -75,13 +83,18 @@ export class LabsBlockComponent implements OnInit {
 
       this._http.deleteData<number>(LABS_URL + '/delete_by/difficulty', {difficulty: res.difficultyType})
         .subscribe((res) => {
-          console.log(res)
-        this._snackBar.open('Lab was successfully deleted', 'Close', {
-          duration: 3000,
-        });
-        // this.getLabs();
-      })
+          this._snackBar.open('Lab was successfully deleted', 'Close', {
+            duration: 3000,
+          });
+          this.getLabs();
+        })
     })
 
+  }
+
+  onPageChange($event: any) {
+    this.pageSize = $event.pageSize
+    this.pageIndex = $event.pageIndex
+    this.getLabs()
   }
 }

@@ -1,6 +1,8 @@
 package com.soa.lab2.repository;
 
 import com.soa.lab2.model.Discipline;
+import org.hibernate.exception.ConstraintViolationException;
+import org.postgresql.util.PSQLException;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

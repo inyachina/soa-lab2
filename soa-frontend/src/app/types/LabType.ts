@@ -1,3 +1,5 @@
+import {FormGroup} from "@angular/forms";
+
 export interface Lab {
   id: number | null;
   name: string;
@@ -55,7 +57,13 @@ export const DifficultyTypeMapper: Record<DifficultyType, string> = {
   [DifficultyType.INSANE]: 'insane',
 }
 
-export interface SortFilterType {
+export interface PagingType {
   size: number,
   page: number
+}
+
+export interface FilterProperty{
+  name: string,
+  formGroup?: FormGroup,
+  type: string,
 }

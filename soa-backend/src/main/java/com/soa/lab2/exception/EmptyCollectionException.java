@@ -2,16 +2,18 @@ package com.soa.lab2.exception;
 
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@NoArgsConstructor
 @Getter
-public class EmptyCollectionException extends RuntimeException {
-    private final HttpStatus status = HttpStatus.NO_CONTENT;
+public class EmptyCollectionException extends LabException {
+
+    public EmptyCollectionException() {
+        super(HttpStatus.NO_CONTENT, "Collection is empty");
+    }
 
     public EmptyCollectionException(String message) {
-        super(message);
+        this();
+        super.message = message;
     }
 
 }

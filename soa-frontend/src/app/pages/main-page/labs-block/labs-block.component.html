@@ -51,6 +51,8 @@
     </mat-paginator>
   </div>
   <div class="filter_container">
-    <app-filter-accordion></app-filter-accordion>
+    <app-filter-accordion
+      (onSearch)="searchLabs($event)"
+    ></app-filter-accordion>
   </div>
 </div>

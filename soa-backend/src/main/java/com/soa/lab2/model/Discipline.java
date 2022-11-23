@@ -1,16 +1,17 @@
 package com.soa.lab2.model;
 
-import com.soa.lab2.dao.DisciplineDTO;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
-@Data
-@Entity
-@NonNull
 
+@Entity
+@Getter
+@Builder
+@NonNull
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "discipline")
 public class Discipline {
     @Id
@@ -23,12 +24,4 @@ public class Discipline {
     private int lectureHours;
     private int selfStudyHours;
 
-    public Discipline() {
-    }
-
-    public Discipline(DisciplineDTO disciplineDTO) {
-        this.name = disciplineDTO.getName();
-        this.lectureHours = disciplineDTO.getLectureHours();
-        this.selfStudyHours = disciplineDTO.getSelfStudyHours();
-    }
 }

@@ -1,20 +1,18 @@
 package com.soa.lab2.model;
 
-import com.soa.lab2.dao.LabDTO;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @NonNull
-@Data
-@Entity
-@Table(name = "lab")
+@Getter
+@Builder(toBuilder=true)
+@ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Lab {
 
     @Id
@@ -40,14 +38,4 @@ public class Lab {
     @JoinColumn(name = "discipline_id")
     private Discipline discipline;
 
-    public Lab(LabDTO labDTO, Discipline discipline) {
-        this.name = labDTO.getName();
-        this.x = labDTO.getX();
-        this.y = labDTO.getY();
-        this.creationDate = LocalDate.now();
-        this.minimalPoint = labDTO.getMinimalPoint();
-        this.personalQualitiesMaximum = labDTO.getPersonalQualitiesMaximum();
-        this.difficulty = labDTO.getDifficulty();
-        this.discipline = discipline;
-    }
 }

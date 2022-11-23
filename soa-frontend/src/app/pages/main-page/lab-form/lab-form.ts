@@ -128,6 +128,9 @@ export class LabForm implements AfterViewInit {
     this._http.putData<Lab>(LABS_URL + `/${this.lab?.id}`, LabMapperDTO(this.form.getRawValue(), this.form.getRawValue().discipline))
       .subscribe((res) => {
         this.setLabForm(res);
+        this._snackBar.open('Lab was successfully updated', 'Close', {
+          duration: 3000,
+        });
       })
   }
 

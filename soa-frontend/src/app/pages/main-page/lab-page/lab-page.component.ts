@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Lab, SortFilterType} from "../../../types/LabType";
+import {Lab} from "../../../types/LabType";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {HttpService} from "../../../services/http.service";
@@ -25,7 +25,7 @@ export class LabPageComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe((params: Params) => {
       const id = params['id']
-      this.$lab = this._http.getData<Lab>(LABS_URL + `/${id}`, )
+      this.$lab = this._http.getData<Lab>(LABS_URL + `/${id}`,)
     });
   }
 

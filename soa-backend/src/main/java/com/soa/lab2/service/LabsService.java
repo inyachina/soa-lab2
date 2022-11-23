@@ -1,9 +1,8 @@
 package com.soa.lab2.service;
 
-import com.soa.lab2.dao.LabDTO;
+import com.soa.lab2.data.dto.LabDTO;
 import com.soa.lab2.model.Difficulty;
 import com.soa.lab2.model.Lab;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +10,9 @@ import java.util.Optional;
 public interface LabsService {
     List<Lab> findAll();
 
-    List<Lab> findAll(Pageable pageable);
+    public List<Lab> findAll(int page, int size, String sort);
 
-    Lab save(Lab entity);
+    Lab save(LabDTO entity);
 
     Optional<Lab> findById(Integer integer);
 

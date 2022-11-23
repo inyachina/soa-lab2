@@ -1,16 +1,16 @@
 package com.soa.lab2.contoller;
 
-import com.soa.lab2.dao.LabDTO;
+import com.soa.lab2.data.dto.LabDTO;
 import com.soa.lab2.exception.EmptyCollectionException;
 import com.soa.lab2.exception.NoEntityException;
-import com.soa.lab2.model.Discipline;
 import com.soa.lab2.model.Lab;
 import com.soa.lab2.service.impl.DisciplineServiceImpl;
 import com.soa.lab2.service.impl.LabsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,20 +30,21 @@ public class LabsController {
         this.disciplineService = disciplineService;
     }
 
-
     @GetMapping
-    private ResponseEntity getLabs(@RequestParam Integer page, @RequestParam Integer size) {
-        List<Lab> labs = labsService.findAll(PageRequest.of(page, size));
-        if (labs.isEmpty()) throw new EmptyCollectionException();
-
+    private ResponseEntity getLabs(@RequestParam @DefaultValue(value = "0") Integer page,
+                                   @RequestParam @DefaultValue(value = "15") Integer size,
+                                   @RequestParam @Nullable String sort) {
+        List<Lab> labs = labsService.findAll(page, size, sort);
+        if (labs.isEmpty())
+            throw new EmptyCollectionException();
         else return ResponseEntity.ok().body(labs);
     }
 
     @GetMapping("/all")
     private ResponseEntity getLabs() {
         List<Lab> labs = labsService.findAll();
-        if (labs.isEmpty()) throw new EmptyCollectionException();
-
+        if (labs.isEmpty())
+            throw new EmptyCollectionException();
         else return ResponseEntity.ok().body(labs);
     }
 
@@ -51,14 +52,10 @@ public class LabsController {
     private ResponseEntity getLabsAmount() {
         return ResponseEntity.ok().body(this.labsService.count());
     }
+
     @PostMapping
     private ResponseEntity<Lab> saveLab(@RequestBody LabDTO labDTO) {
-        Optional<Discipline> discipline = this.disciplineService.getByName(labDTO.getDisciplineName());
-        if (discipline.isEmpty())
-            throw new NoEntityException("The \"" + labDTO.getDisciplineName() + "\" discipline doesn't exist.");
-
-        Lab lab = new Lab(labDTO, discipline.get());
-        return ResponseEntity.ok().body(labsService.save(lab));
+        return ResponseEntity.ok().body(this.labsService.save(labDTO));
     }
 
     @GetMapping("/{id}")
@@ -77,7 +74,6 @@ public class LabsController {
 
     @PutMapping("/{id}")
     private ResponseEntity updateLab(@PathVariable Integer id, @RequestBody LabDTO labDTO) {
-        this.labsService.update(id, labDTO);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().body(this.labsService.update(id, labDTO));
     }
 }

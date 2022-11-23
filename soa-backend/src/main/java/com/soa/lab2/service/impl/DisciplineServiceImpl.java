@@ -1,9 +1,12 @@
 package com.soa.lab2.service.impl;
 
+import com.soa.lab2.data.dto.DisciplineDTO;
+import com.soa.lab2.exception.AlreadyExistsException;
 import com.soa.lab2.model.Discipline;
 import com.soa.lab2.repository.DisciplineRepository;
 import com.soa.lab2.service.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +27,18 @@ public class DisciplineServiceImpl implements DisciplineService {
     }
 
     @Override
-    public Discipline save(Discipline discipline) {
-        return this.disciplineRepository.save(discipline);
+    public Discipline save(DisciplineDTO disciplineDTO) {
+        Discipline discipline;
+        try {
+            discipline = this.disciplineRepository.save(Discipline.builder()
+                    .name(disciplineDTO.getName())
+                    .lectureHours(disciplineDTO.getLectureHours())
+                    .selfStudyHours(disciplineDTO.getSelfStudyHours())
+                    .build());
+        } catch (DataIntegrityViolationException e) {
+            throw new AlreadyExistsException("Discipline with this name already exists");
+        }
+        return discipline;
     }
 
     @Override

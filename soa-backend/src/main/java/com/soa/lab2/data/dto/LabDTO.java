@@ -1,4 +1,4 @@
-package com.soa.lab2.dao;
+package com.soa.lab2.data.dto;
 
 import com.soa.lab2.model.Difficulty;
 import lombok.AllArgsConstructor;

@@ -10,11 +10,7 @@
     <mat-accordion multi>
       <app-filter-rule
         *ngFor="let property of properties"
-        [property]="property"
-      ></app-filter-rule>
-      <div class="filter_title mt-1">Coordinates</div>
-      <app-filter-rule
-        *ngFor="let property of coordinatesProperties"
+        (changeSort)="onChangeSort()"
         [property]="property"
       ></app-filter-rule>
       <div class="filter_title mt-1">Discipline</div>
@@ -23,6 +19,10 @@
         [property]="property"
       ></app-filter-rule>
     </mat-accordion>
-    <button class="search_button" mat-raised-button>Search</button>
+    <button
+      (click)="onSearch()"
+      class="search_button" mat-raised-button>
+      Search
+    </button>
   </div>
 </mat-card>

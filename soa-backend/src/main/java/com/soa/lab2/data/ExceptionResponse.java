@@ -1,4 +1,4 @@
-package com.soa.lab2.dao;
+package com.soa.lab2.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

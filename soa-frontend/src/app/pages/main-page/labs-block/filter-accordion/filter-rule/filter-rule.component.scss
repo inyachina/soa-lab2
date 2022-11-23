@@ -1,5 +1,9 @@
-.filter_rule{
-  ::ng-deep .mat-form-field-infix{
+.filter_rule {
+  ::ng-deep .mat-form-field-infix {
     width: 100%;
   }
+}
+
+.dirty_filter_rule {
+  background: #4e4468;
 }

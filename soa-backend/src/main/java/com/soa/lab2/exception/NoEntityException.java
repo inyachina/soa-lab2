@@ -1,15 +1,18 @@
 package com.soa.lab2.exception;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@NoArgsConstructor
 @Getter
-public class NoEntityException extends RuntimeException {
-    private final HttpStatus status = HttpStatus.NOT_FOUND;
+public class NoEntityException extends LabException {
+
+    public NoEntityException() {
+        super(HttpStatus.NOT_FOUND, "Entity is not found");
+    }
 
     public NoEntityException(String message) {
-        super(message);
+        this();
+        super.message = message;
     }
+
 }

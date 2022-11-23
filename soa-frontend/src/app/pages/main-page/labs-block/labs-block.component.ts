@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LabForm} from "../lab-form/lab-form";
 import {HttpService} from "../../../services/http.service";
 import {LABS_URL} from "../../../../data/api";
-import {DifficultyType, Lab, LabMapperDTO} from "../../../types/LabType";
+import {DifficultyType, FilterProperty, Lab, LabMapperDTO} from "../../../types/LabType";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AveragePopupComponent} from "./average-popup/average-popup.component";
 import {DeletePopupComponent} from "./delete-popup/delete-popup.component";
@@ -35,13 +35,14 @@ export class LabsBlockComponent implements OnInit {
   }
 
 
-  public getLabs() {
+  public getLabs(filter?: string) {
     this._http.getData<number>(LABS_URL + '/amount').subscribe((res) => {
       this.labAmount = res;
     })
     this._http.getData<Lab[]>(LABS_URL, {
       page: this.pageIndex,
-      size: this.pageSize
+      size: this.pageSize,
+      sort: filter || null
     }).subscribe((res) => {
       this.labs = res;
       this._cdr.markForCheck();
@@ -96,5 +97,10 @@ export class LabsBlockComponent implements OnInit {
     this.pageSize = $event.pageSize
     this.pageIndex = $event.pageIndex
     this.getLabs()
+  }
+
+  searchLabs($event: FilterProperty[]) {
+    console.log($event)
+    this.getLabs(JSON.stringify($event))
   }
 }

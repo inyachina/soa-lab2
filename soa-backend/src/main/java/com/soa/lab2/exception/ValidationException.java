@@ -4,12 +4,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@NoArgsConstructor
 @Getter
-public class ValidationException extends RuntimeException {
-    private final HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+//todo remove
+public class ValidationException extends LabException {
+
+    public ValidationException() {
+        super(HttpStatus.UNPROCESSABLE_ENTITY, "Validation failed");
+    }
+
     public ValidationException(String message) {
-        super(message);
+        this();
+        super.message = message;
     }
 
 }

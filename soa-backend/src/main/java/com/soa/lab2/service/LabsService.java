@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface LabsService {
     List<Lab> findAll();
 
-    public List<Lab> findAll(int page, int size, String sort);
+    public List<Lab> findAll(int page, int size, String sort, String filter);
 
     Lab save(LabDTO entity);
 

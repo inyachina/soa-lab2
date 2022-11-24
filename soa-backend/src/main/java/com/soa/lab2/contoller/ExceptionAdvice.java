@@ -12,6 +12,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(LabException.class)
     public ResponseEntity handleServerException(LabException e) {
+        e.printStackTrace();
         return ResponseEntity
                 .status(e.getStatus())
                 .body(new ExceptionResponse(e.getClass().getName(),
@@ -20,6 +21,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity handleServerException(Exception e) {
+        e.printStackTrace();
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ExceptionResponse(e.getClass().getName(), "Something went wrong"));

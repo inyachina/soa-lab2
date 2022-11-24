@@ -12,10 +12,14 @@ import com.soa.lab2.model.Lab;
 import com.soa.lab2.repository.DisciplineRepository;
 import com.soa.lab2.repository.LabsRepository;
 import com.soa.lab2.service.LabsService;
+import cz.jirutka.rsql.parser.RSQLParser;
+import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import rsql.CustomRsqlVisitor;
 
 import javax.persistence.criteria.Order;
 import javax.transaction.Transactional;
@@ -42,8 +46,15 @@ public class LabsServiceImpl implements LabsService {
     }
 
     @Override
-    public List<Lab> findAll(int page, int size, String sort) {
+    public List<Lab> findAll(int page, int size, String sort, String filter) {
         System.out.println("!!!");
+        System.out.println(filter);
+        if (filter != null){
+            Node rootNode = new RSQLParser().parse(filter);
+            Specification<Lab> spec = rootNode.accept(new CustomRsqlVisitor<>());
+
+            return this.labsRepository.findAll(spec);
+        }
         if (sort != null) {
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -62,12 +73,12 @@ public class LabsServiceImpl implements LabsService {
                                         ? OrderRule.DESCENDING.getDirection()
                                         : null;
 //                    orders.add(
-                        if (direction != null) orders.add(new Order(direction, property));
+//                        if (direction != null) orders.add(new Order(direction, property));
                     }
                 }
 //                System.out.println(sortFilter);
 //                System.out.println(Arrays.toString(allProperties));
-            } catch (JsonProcessingException | IllegalAccessException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -33,8 +33,9 @@ public class LabsController {
     @GetMapping
     private ResponseEntity getLabs(@RequestParam @DefaultValue(value = "0") Integer page,
                                    @RequestParam @DefaultValue(value = "15") Integer size,
-                                   @RequestParam @Nullable String sort) {
-        List<Lab> labs = labsService.findAll(page, size, sort);
+                                   @RequestParam @Nullable String sort,
+                                   @RequestParam @Nullable String filter) {
+        List<Lab> labs = labsService.findAll(page, size, sort, filter);
         if (labs.isEmpty())
             throw new EmptyCollectionException();
         else return ResponseEntity.ok().body(labs);

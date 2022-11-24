@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LabForm} from "../lab-form/lab-form";
 import {HttpService} from "../../../services/http.service";
 import {LABS_URL} from "../../../../data/api";
-import {DifficultyType, FilterProperty, Lab, LabMapperDTO} from "../../../types/LabType";
+import {DifficultyType, Lab, LabMapperDTO} from "../../../types/LabType";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AveragePopupComponent} from "./average-popup/average-popup.component";
 import {DeletePopupComponent} from "./delete-popup/delete-popup.component";
@@ -42,7 +42,8 @@ export class LabsBlockComponent implements OnInit {
     this._http.getData<Lab[]>(LABS_URL, {
       page: this.pageIndex,
       size: this.pageSize,
-      sort: filter || null
+      filter: "x>=2,name==\"name\""
+      // sort: filter || null
     }).subscribe((res) => {
       this.labs = res;
       this._cdr.markForCheck();
@@ -99,8 +100,17 @@ export class LabsBlockComponent implements OnInit {
     this.getLabs()
   }
 
-  searchLabs($event: FilterProperty[]) {
-    console.log($event)
-    this.getLabs(JSON.stringify($event))
+  searchLabs(filterProperties: any) {
+    this.getLabs(this._parseParams(filterProperties))
+  }
+
+  private _parseParams(filterProperties: any) {
+
+    // @ts-ignore
+    let clearFilterProperties = Object.fromEntries(Object.entries(filterProperties).filter(([_, v]) => v.sort != null));
+    for (const param in clearFilterProperties){
+      console.log(param)
+    }
+    return "clearFilterProperties";
   }
 }

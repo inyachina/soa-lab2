@@ -67,3 +67,8 @@ export interface FilterProperty{
   formGroup?: FormGroup,
   type: string,
 }
+
+export interface SortType {
+  sort: string,
+  order: 'asc' |'desc'
+}

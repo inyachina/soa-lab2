@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Injector, Input} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {DifficultyType, Discipline, Lab, LabMapperDTO} from "../../../types/LabType";
+import {DifficultyType, Discipline, Lab, LabFormGroup, LabMapperDTO} from "../../../types/LabType";
 import {map, Observable} from "rxjs";
 import {HttpService} from "../../../services/http.service";
 import {DISCIPLINE_URL, LABS_URL} from "../../../../data/api";
@@ -21,12 +21,11 @@ export class LabForm implements AfterViewInit {
   @Input('lab')
   public $lab!: Observable<Lab>;
   public lab?: Lab;
-  public DifficultyType = DifficultyType;
   public disciplines!: Discipline[];
   public filteredDisciplines!: Observable<Discipline[]>;
   public initialState?: string;
 
-  public form = this._fb.group(
+  public form: LabFormGroup = this._fb.group(
     {
       // name: [null, Validators.required],
       // x: [null, Validators.compose([Validators.required, Validators.max(295)])],
@@ -62,38 +61,22 @@ export class LabForm implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!this.isEditMode) this._dialogRef = <MatDialogRef<LabForm>>this._injector.get(MatDialogRef<LabForm>)
-    this.filteredDisciplines = this.form.controls.discipline.valueChanges.pipe(
-      map(value => this._filter(value || '')
-      ),
-    )
-    this._http.getData<Discipline[]>(DISCIPLINE_URL).pipe(
-      // (obs) => this.filteredDisciplines = obs
-    ).subscribe((res) => {
-      this.disciplines = res;
-    })
 
-    this.$lab?.subscribe((lab) => {
-      this.setLabForm(lab)
-    })
+    this.filteredDisciplines = this.form.controls.discipline.valueChanges
+      .pipe(map(value => this._filter(value || '')),)
+    this._http.getData<Discipline[]>(DISCIPLINE_URL).subscribe((res) => this.disciplines = res)
+    this.$lab?.subscribe((lab) => this.setLabForm(lab))
   }
 
   private setLabForm(lab: Lab) {
     this.lab = lab
-    // @ts-ignore
     this.form.controls.name.setValue(lab.name)
-    // @ts-ignore
     this.form.controls.x.setValue(lab.x)
-    // @ts-ignore
     this.form.controls.y.setValue(lab.y)
-    // @ts-ignore
     this.form.controls.personalQualitiesMaximum.setValue(lab.personalQualitiesMaximum)
-    // @ts-ignore
     this.form.controls.minimalPoint.setValue(lab.minimalPoint)
-    // @ts-ignore
     this.form.controls.discipline.setValue(lab.discipline.name)
-    // @ts-ignore
     this.form.controls.difficulty.setValue(lab.difficulty)
-    // @ts-ignore
     this.form.controls.creationDate.setValue(lab.creationDate)
     this.initialState = JSON.stringify(this.form.getRawValue())
     this._cdr.markForCheck()
@@ -140,8 +123,7 @@ export class LabForm implements AfterViewInit {
 
   isDisabledSaveButton = () => !this.form.valid
 
-  isDisabledEditButton = () => {
-    return this.initialState === JSON.stringify(this.form.getRawValue())
-  }
+  isDisabledEditButton = () => this.initialState === JSON.stringify(this.form.getRawValue())
+
 
 }

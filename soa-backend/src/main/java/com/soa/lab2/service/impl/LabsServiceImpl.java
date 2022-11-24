@@ -1,11 +1,6 @@
 package com.soa.lab2.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soa.lab2.data.dto.LabDTO;
-import com.soa.lab2.data.sort_filter.OrderRule;
-import com.soa.lab2.data.sort_filter.SortFilter;
-import com.soa.lab2.data.sort_filter.SortFilterRule;
 import com.soa.lab2.exception.NoEntityException;
 import com.soa.lab2.model.Difficulty;
 import com.soa.lab2.model.Lab;
@@ -21,13 +16,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import rsql.CustomRsqlVisitor;
 
-import javax.persistence.criteria.Order;
 import javax.transaction.Transactional;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class LabsServiceImpl implements LabsService {
@@ -47,42 +42,24 @@ public class LabsServiceImpl implements LabsService {
 
     @Override
     public List<Lab> findAll(int page, int size, String sort, String filter) {
-        System.out.println("!!!");
-        System.out.println(filter);
-        if (filter != null){
+        if (filter != null) {
             Node rootNode = new RSQLParser().parse(filter);
             Specification<Lab> spec = rootNode.accept(new CustomRsqlVisitor<>());
-
-            return this.labsRepository.findAll(spec);
+            if (sort != null)
+                return this.labsRepository.findAll(spec, PageRequest.of(page, size, Sort.by(parseToSort(sort)))).getContent();
+            else return this.labsRepository.findAll(spec, PageRequest.of(page, size)).getContent();
+        } else if (sort != null){
+            System.out.println("DDDDDDDDDDDDDDDDDDD");
+            return this.labsRepository.findAll(PageRequest.of(page, size, Sort.by(parseToSort(sort)))).getContent();
         }
-        if (sort != null) {
-            ObjectMapper objectMapper = new ObjectMapper();
 
-            try {
-                SortFilter sortFilter = objectMapper.readValue(sort, SortFilter.class);
-                Field[] allProperties = SortFilter.class.getDeclaredFields();
-                List<Order> orders = new ArrayList<Order>();
-                for (Field field : allProperties) {
-                    String property = field.getName();
-                    String value = ((SortFilterRule) field.get(sortFilter)).getSort();
-                    if (value != null) {
-                        Sort.Direction direction =
-                                value.equals(OrderRule.ASCENDING.toString())
-                                        ? OrderRule.ASCENDING.getDirection()
-                                        : value.equals(OrderRule.DESCENDING.toString())
-                                        ? OrderRule.DESCENDING.getDirection()
-                                        : null;
-//                    orders.add(
-//                        if (direction != null) orders.add(new Order(direction, property));
-                    }
-                }
-//                System.out.println(sortFilter);
-//                System.out.println(Arrays.toString(allProperties));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return this.labsRepository.findAll(PageRequest.of(page, size, Sort.by("name").ascending())).getContent();
+        return this.labsRepository.findAll(PageRequest.of(page, size)).getContent();
+    }
+
+    private List<Sort.Order> parseToSort(String sortRule) {
+        return Stream.of(sortRule.split(";"))
+                .map(x -> new Sort.Order(Sort.Direction.valueOf(x.split(",")[1].toUpperCase()), x.split(",")[0]))
+                .collect(Collectors.toList());
     }
 
     @Override

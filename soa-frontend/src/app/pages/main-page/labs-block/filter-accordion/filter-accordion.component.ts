@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {MatAccordion} from "@angular/material/expansion";
 import {FormBuilder} from "@angular/forms";
-import {FilterProperty} from "../../../../types/LabType";
+import {PropertyFormGroup} from "../../../../types/LabType";
 
 @Component({
   selector: 'app-filter-accordion',
@@ -9,88 +9,64 @@ import {FilterProperty} from "../../../../types/LabType";
   styleUrls: ['./filter-accordion.component.scss']
 })
 export class FilterAccordionComponent implements OnInit {
-  @Output("onSearch") public onSearchEvent = new EventEmitter<FilterProperty[]>();
+  @Output("onSearch") public onSearchEvent = new EventEmitter();
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
   public filterForm = this._fb.group(
     {
-      name: this._fb.group(
-        {
-          sort: [null]
-        }
-      ),
-      x: this._fb.group(
-        {
-          sort: [null]
-        }
-      ),
-      y: this._fb.group(
-        {
-          sort: [null]
-        }
-      ),
-      difficulty: this._fb.group(
-        {
-          sort: [null]
-        }
-      ),
-      minimalPoint: this._fb.group(
-        {
-          sort: [null]
-        }
-      ),
-      personalQualitiesMaximum: this._fb.group(
-        {
-          sort: [null]
-        }
-      )
-    }
-  )
-  public properties: FilterProperty[] = [
-    {
-      name: "Name",
-      formGroup: this.filterForm.controls.name,
-      type: "string",
-    },
-    {
-      name: "X",
-      formGroup: this.filterForm.controls.x,
-      type: "number",
-    },
-    {
-      name: "Y",
-      formGroup: this.filterForm.controls.y,
-      type: "number",
-    },
-    {
-      name: "Difficulty",
-      formGroup: this.filterForm.controls.difficulty,
-      type: "string",
-    },
-    {
-      name: "Minimal Points",
-      formGroup: this.filterForm.controls.minimalPoint,
-      type: "number",
-    },
-    {
-      name: "Personal Qualities Maximum",
-      formGroup: this.filterForm.controls.personalQualitiesMaximum,
-      type: "number",
-    },
-  ]
+      // name: this._getPropertyFB("Name", "name", "string", "asc", "!=", "name"),
+      // x: this._getPropertyFB("Coordinate X","x", "number", null, "=lt=", "2"),
+      name: this._getPropertyFB("Name", "name", "string"),
+      x: this._getPropertyFB("Coordinate X", "x", "number"),
+      y: this._getPropertyFB("Coordinate Y", "y", "number"),
+      difficulty: this._getPropertyFB("Difficulty", "difficulty", "string"),
+      minimalPoint: this._getPropertyFB("Minimal Point", "minimalPoint", "number"),
+      creationDate: this._getPropertyFB("Creation Date", "creationDate", "string"),
+      personalQualitiesMaximum: this._getPropertyFB("Personal Qualities Maximum", "personalQualitiesMaximum", "number"),
+      // discipline: this._fb.group({
+      //   name: this._getPropertyFB("name", "string"),
+      //   lectureHours: this._getPropertyFB("lectureHours", "number"),
+      //   selfStudyHours: this._getPropertyFB("selfStudyHours", "number"),
+      // })
+    });
 
-  public disciplineProperties = [
-    //   {
-    //   name: "name",
-    //   server_name: "name"
-    // },
-    //   {
-    //     name: "Lecture Hours",
-    //     server_name: "lecture_hours"
-    //   },{
-    //     name: "Self Study Hours",
-    //     server_name: "self_study_hours"
-    //   },
+  public disciplineFormGroup = this._fb.group(
+    {
+      name: this._getPropertyFB("Name", "discipline.name", "string"),
+      lectureHours: this._getPropertyFB("Lecture Hours", "discipline.lectureHours", "number"),
+      selfStudyHours: this._getPropertyFB("Self Study Hours", "discipline.selfStudyHours", "number"),
+    })
+
+  private _getPropertyFB(name: string, property: string, type: string, sort?: string | null, filterRule?: string | null, filterValue?: string | null) {
+    return this._fb.group(
+      {
+        type: [type],
+        name: [name],
+        property: [property],
+        sort: [sort],
+        filter: this._fb.group(
+          {
+            rule: [filterRule],
+            value: [filterValue],
+          }
+        )
+      }
+    )
+  }
+
+  public propertiesFormGroup: PropertyFormGroup[] = [
+    this.filterForm.controls.name,
+    this.filterForm.controls.x,
+    this.filterForm.controls.y,
+    this.filterForm.controls.creationDate,
+    this.filterForm.controls.difficulty,
+    this.filterForm.controls.minimalPoint,
+    this.filterForm.controls.personalQualitiesMaximum,
+  ]
+  public disciplinePropertiesFormGroup: PropertyFormGroup[] = [
+    this.disciplineFormGroup.controls.name,
+    this.disciplineFormGroup.controls.selfStudyHours,
+    this.disciplineFormGroup.controls.lectureHours,
   ]
 
   constructor(
@@ -99,14 +75,16 @@ export class FilterAccordionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  onChangeSort() {
-    // console.log(this.filterForm.getRawValue())
+    //todo после обновления страницы сохранять форму
+    //todo при филтровке количество страниц равно общему количеству страниц для всех лаб
   }
 
   onSearch() {
     // @ts-ignore
-    this.onSearchEvent.emit(this.filterForm.getRawValue())
+    this.onSearchEvent.emit(
+      {
+        filterProperties: this.filterForm.getRawValue(),
+        disciplineFilterProperties: this.disciplineFormGroup.getRawValue()
+      })
   }
 }

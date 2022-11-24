@@ -6,6 +6,7 @@ import com.soa.lab2.exception.NoEntityException;
 import com.soa.lab2.model.Lab;
 import com.soa.lab2.service.impl.DisciplineServiceImpl;
 import com.soa.lab2.service.impl.LabsServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @RestController
 @Validated
 @RequestMapping("/api/v1/labs")
+@Slf4j
 public class LabsController {
     private LabsServiceImpl labsService;
     private DisciplineServiceImpl disciplineService;
@@ -35,18 +37,15 @@ public class LabsController {
                                    @RequestParam @DefaultValue(value = "15") Integer size,
                                    @RequestParam @Nullable String sort,
                                    @RequestParam @Nullable String filter) {
+        log.info("Processing get labs request \npage: {}, \nsize: {}, \nfilter: {}, \nsort: {}", page, size, filter, sort);
         List<Lab> labs = labsService.findAll(page, size, sort, filter);
-        if (labs.isEmpty())
-            throw new EmptyCollectionException();
-        else return ResponseEntity.ok().body(labs);
+        return ResponseEntity.ok().body(labs);
     }
 
     @GetMapping("/all")
     private ResponseEntity getLabs() {
         List<Lab> labs = labsService.findAll();
-        if (labs.isEmpty())
-            throw new EmptyCollectionException();
-        else return ResponseEntity.ok().body(labs);
+        return ResponseEntity.ok().body(labs);
     }
 
     @GetMapping("/amount")

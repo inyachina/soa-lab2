@@ -1,15 +1,22 @@
 <!--<div *ngIf="!isEditMode || !!this.form.controls.name.getRawValue()" class="lab_form">-->
 <div class="lab_form">
+
+  <div class="creation_date">
+    {{lab?.creationDate | date: 'yyyy.MM.dd'}}
+  </div>
   <div class="title_container container__centered">
     <div class="title">{{!isEditMode ? 'Adding lab' : ('Lab ' + lab?.id)}}</div>
   </div>
+
   <form class="flex_container__column" [formGroup]="form">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
-      <input
+      <textarea
+        [style.maxHeight.rem]="7"
+        [style.minHeight.rem]="2"
         class="colorful_input"
         matInput
-        formControlName="name">
+        formControlName="name"></textarea>
     </mat-form-field>
     <div class="number_block">
       <div class="title subtitle">{{!isEditMode ? 'Set coordinates:' : 'Coordinates:'}}</div>
@@ -88,6 +95,7 @@
       class="add_button__lab_form">
       Save
     </button>
+
     <div
       class="edit_buttons"
       *ngIf="isEditMode">

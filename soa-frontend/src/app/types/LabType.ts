@@ -1,4 +1,4 @@
-import {FormGroup} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 
 export interface Lab {
   id: number | null;
@@ -62,7 +62,7 @@ export interface PagingType {
   page: number
 }
 
-export interface FilterProperty{
+export interface FilterProperty {
   name: string,
   formGroup?: FormGroup,
   type: string,
@@ -70,5 +70,43 @@ export interface FilterProperty{
 
 export interface SortType {
   sort: string,
-  order: 'asc' |'desc'
+  order: 'asc' | 'desc'
+}
+
+export interface FilterFormGroup extends FormGroup {
+  controls: {
+    rule: FormControl,
+    value: FormControl,
+  };
+}
+
+export interface PropertyFormGroup extends FormGroup{
+  controls: {
+    type: FormControl,
+    property: FormControl,
+    name: FormControl,
+    sort: FormControl,
+    filter: FilterFormGroup
+  },
+}
+export interface LabFormGroup extends FormGroup{
+  controls: {
+    name: FormControl,
+    x: FormControl,
+    y: FormControl,
+    personalQualitiesMaximum: FormControl,
+    minimalPoint: FormControl,
+    discipline: FormControl,
+    difficulty: FormControl,
+    creationDate: FormControl,
+  }
+}
+export interface PropertyType {
+  filter: {
+    rule: string,
+    value: string
+  }
+  property: string,
+  sort: string,
+  type: string
 }

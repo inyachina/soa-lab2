@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {MatRadioChange} from "@angular/material/radio";
-import {FilterProperty} from "../../../../../types/LabType";
+import {FilterFormGroup, FilterProperty, PropertyFormGroup} from "../../../../../types/LabType";
 
 @Component({
   selector: 'app-filter-rule',
@@ -11,28 +10,35 @@ import {FilterProperty} from "../../../../../types/LabType";
 export class FilterRuleComponent implements OnInit {
   @Output("changeSort")
   public changeSortEvent = new EventEmitter<FilterProperty>();
-  @Input("property")
-  public property!: FilterProperty
+  @Input("propertyFormGroup")
+  public propertyFormGroup!: PropertyFormGroup
 
-  public filterControl!: FormControl;
-  public sortControl!: FormControl<any>;
+  public filterFormGroup!: FilterFormGroup;
+  public sortControl!: FormControl;
+  public name!: string;
+  public type!: string;
 
-  constructor() {
+  constructor(private _cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
-    this.sortControl = this.property.formGroup?.controls['sort'] as FormControl;
-    // console.log(this.sortControl)
-    // this.filterControl = this.property.formGroup.controls.filter;
-
+    this.filterFormGroup = this.propertyFormGroup.controls.filter;
+    this.sortControl = this.propertyFormGroup.controls.sort;
+    this.name = this.propertyFormGroup.controls.name.getRawValue();
+    this.type = this.propertyFormGroup.controls.type.getRawValue();
   }
 
-  public isDirtyForm() {
-    return this.filterControl?.dirty || this.sortControl?.dirty
-  }
+  isDirtyForm= () =>  this.sortControl.dirty || this.filterFormGroup.controls.rule.dirty || this.filterFormGroup.controls.value.dirty
 
-  onChangeSort(event: MatRadioChange) {
-    this.sortControl.setValue(event.value)
-    this.changeSortEvent.emit(this.property)
+  isNumber = () =>  this.type == "number"
+
+
+  clearForm() {
+    this.sortControl.setValue(null)
+    this.filterFormGroup.controls.rule.setValue(null)
+    this.filterFormGroup.controls.value.setValue(null)
+    this.sortControl.markAsPristine()
+    this.filterFormGroup.controls.rule.markAsPristine()
+    this.filterFormGroup.controls.value.markAsPristine()
   }
 }

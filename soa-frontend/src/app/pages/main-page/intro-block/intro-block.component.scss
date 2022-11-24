@@ -4,10 +4,10 @@
   height: 90vh;
   margin: 0 2rem;
   position: relative;
-  background: $accent_color;
+  background: $accept_color;
   border-left: 2px solid $dark_color;
   border-right: 2px solid $dark_color;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 70% 40%;
 
   .filter_grid{
     position: absolute;
@@ -22,6 +22,9 @@
     .title {
       font-size: 4rem;
       font-weight: bolder;
+      margin-left: 3rem;
+      font-family: cursive;
+      color: $base_color
     }
   }
 }

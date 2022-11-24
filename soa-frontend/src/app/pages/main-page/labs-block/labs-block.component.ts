@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LabForm} from "../lab-form/lab-form";
 import {HttpService} from "../../../services/http.service";
 import {LABS_URL} from "../../../../data/api";
-import {DifficultyType, Lab, LabMapperDTO} from "../../../types/LabType";
+import {DifficultyType, Lab, LabMapperDTO, PropertyType} from "../../../types/LabType";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AveragePopupComponent} from "./average-popup/average-popup.component";
 import {DeletePopupComponent} from "./delete-popup/delete-popup.component";
@@ -19,6 +19,8 @@ export class LabsBlockComponent implements OnInit {
   public pageSize = 15;
   public pageSizeOptions = [5, 10, 15, 25, 50, 100];
   public labAmount?: number;
+  public filter?: string;
+  public sort?: string;
 
   constructor(
     private dialog: MatDialog,
@@ -30,20 +32,18 @@ export class LabsBlockComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLabs();
-    //todo remove
-    // this.clickAddButton();
   }
 
 
-  public getLabs(filter?: string) {
+  public getLabs() {
     this._http.getData<number>(LABS_URL + '/amount').subscribe((res) => {
       this.labAmount = res;
     })
     this._http.getData<Lab[]>(LABS_URL, {
       page: this.pageIndex,
       size: this.pageSize,
-      filter: "x>=2,name==\"name\""
-      // sort: filter || null
+      sort: this.sort || null,
+      filter: this.filter || null,
     }).subscribe((res) => {
       this.labs = res;
       this._cdr.markForCheck();
@@ -100,17 +100,28 @@ export class LabsBlockComponent implements OnInit {
     this.getLabs()
   }
 
-  searchLabs(filterProperties: any) {
-    this.getLabs(this._parseParams(filterProperties))
+
+ private filterQuery: string[] = [];
+ private sortQuery: string[] = [];
+  searchLabs(query: { filterProperties : any,
+    disciplineFilterProperties: any
+  }) {
+    this.filterQuery = [];
+    this.sortQuery= [];
+    this._parsePropsToString(query.filterProperties)
+    this._parsePropsToString(query.disciplineFilterProperties)
+    this.filter = this.filterQuery.join(";")
+    this.sort= this.sortQuery.join(";")
+    this.getLabs()
   }
 
-  private _parseParams(filterProperties: any) {
-
-    // @ts-ignore
-    let clearFilterProperties = Object.fromEntries(Object.entries(filterProperties).filter(([_, v]) => v.sort != null));
-    for (const param in clearFilterProperties){
-      console.log(param)
-    }
-    return "clearFilterProperties";
+  private _parsePropsToString(properties: any){
+    Object.keys(properties).forEach(key => {
+      const property = properties[key] as PropertyType;
+      if (property.filter?.rule !== null && property.filter?.value !== null)
+        this.filterQuery.push(property.property + property.filter.rule + (property.type == "string" || property.type == "enum"? `"${property.filter.value}"` : property.filter.value))
+      if (property.sort != null)
+        this.sortQuery.push((property.property + "," + property.sort))
+    });
   }
 }

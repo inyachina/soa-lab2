@@ -1,9 +1,26 @@
-.filter_rule {
-  ::ng-deep .mat-form-field-infix {
-    width: 100%;
+.dirty_filter_rule {
+  .mat-expansion-panel-header {
+    background: #ddefd9;
+    transition: 0.2s all;
+
+    &:hover {
+      background: #d4e5d0;
+    }
   }
 }
+.mat-expansion-panel-header .mat-expanded{
+  background-color: transparent;
+}
 
-.dirty_filter_rule {
-  background: #4e4468;
+::ng-deep .mat-form-field-infix {
+  width: 100%;
+}
+
+.clear_button {
+  margin-left: -0.9rem;
+  color: #656565;
+}
+
+.underline {
+  text-decoration: underline;
 }

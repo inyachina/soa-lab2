@@ -3,6 +3,7 @@
 .lab_form {
   width: 40rem;
   padding: 0 2rem;
+  position: relative;
 
   .title {
     font-size: 2rem;
@@ -55,6 +56,12 @@
     }
   }
 
+  .creation_date{
+    margin-top: 0.8rem;
+    position: absolute;
+    color: rgba(1,1,1, 0.5);
+    font-weight: bolder;
+  }
   .edit_buttons{
     display: flex;
     justify-content: end;

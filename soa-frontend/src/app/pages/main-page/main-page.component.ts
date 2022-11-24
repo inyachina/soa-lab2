@@ -17,7 +17,8 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     const url = this._router.url;
-    if (url.includes("disciplines")) this.selectedIndex = 1
+    if (url.includes("disciplines")) this.selectedIndex = 2
+    else if(url.includes("labs")) this.selectedIndex = 1;
     else this.selectedIndex = 0;
 
     this._cdr.markForCheck()
@@ -25,8 +26,10 @@ export class MainPageComponent implements OnInit {
 
   changeTab(event: MatTabChangeEvent) {
     if (event.index == 0) {
+      this.setTab("about")
+    } else if (event.index == 1){
       this.setTab("labs")
-    } else {
+    }else{
       this.setTab("disciplines")
     }
   }

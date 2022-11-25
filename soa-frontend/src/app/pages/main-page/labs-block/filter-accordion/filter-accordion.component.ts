@@ -19,15 +19,10 @@ export class FilterAccordionComponent implements OnInit {
       name: this._getPropertyFB("Name", "name", "string"),
       x: this._getPropertyFB("Coordinate X", "x", "number"),
       y: this._getPropertyFB("Coordinate Y", "y", "number"),
-      difficulty: this._getPropertyFB("Difficulty", "difficulty", "string"),
+      difficulty: this._getPropertyFB("Difficulty", "difficulty", "enum"),
       minimalPoint: this._getPropertyFB("Minimal Point", "minimalPoint", "number"),
       creationDate: this._getPropertyFB("Creation Date", "creationDate", "string"),
       personalQualitiesMaximum: this._getPropertyFB("Personal Qualities Maximum", "personalQualitiesMaximum", "number"),
-      // discipline: this._fb.group({
-      //   name: this._getPropertyFB("name", "string"),
-      //   lectureHours: this._getPropertyFB("lectureHours", "number"),
-      //   selfStudyHours: this._getPropertyFB("selfStudyHours", "number"),
-      // })
     });
 
   public disciplineFormGroup = this._fb.group(
@@ -75,8 +70,11 @@ export class FilterAccordionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //todo add info for filter *
     //todo после обновления страницы сохранять форму
-    //todo при филтровке количество страниц равно общему количеству страниц для всех лаб
+    //todo добавить иквелс числам
+    //todo заменить * на start_with
+    //todo при фильтровке количество страниц равно общему количеству страниц для всех лаб
   }
 
   onSearch() {

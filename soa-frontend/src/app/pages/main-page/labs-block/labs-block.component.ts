@@ -101,25 +101,33 @@ export class LabsBlockComponent implements OnInit {
   }
 
 
- private filterQuery: string[] = [];
- private sortQuery: string[] = [];
-  searchLabs(query: { filterProperties : any,
+  private filterQuery: string[] = [];
+  private sortQuery: string[] = [];
+
+  searchLabs(query: {
+    filterProperties: any,
     disciplineFilterProperties: any
   }) {
     this.filterQuery = [];
-    this.sortQuery= [];
+    this.sortQuery = [];
     this._parsePropsToString(query.filterProperties)
     this._parsePropsToString(query.disciplineFilterProperties)
     this.filter = this.filterQuery.join(";")
-    this.sort= this.sortQuery.join(";")
+    this.sort = this.sortQuery.join(";")
     this.getLabs()
   }
 
-  private _parsePropsToString(properties: any){
+  private _parsePropsToString(properties: any) {
     Object.keys(properties).forEach(key => {
       const property = properties[key] as PropertyType;
       if (property.filter?.rule !== null && property.filter?.value !== null)
-        this.filterQuery.push(property.property + property.filter.rule + (property.type == "string" || property.type == "enum"? `"${property.filter.value}"` : property.filter.value))
+        if (property.type == "enum") {
+          let enumFilterQuery = [];
+          for(const value of ((property.filter.value as unknown as Set<string>).values())){
+              enumFilterQuery.push(property.property + property.filter.rule + value)
+            }
+          this.filterQuery.push(enumFilterQuery.join(","))
+        } else this.filterQuery.push(property.property + property.filter.rule + (property.type == "string" ? `"${property.filter.value}"` : property.filter.value))
       if (property.sort != null)
         this.sortQuery.push((property.property + "," + property.sort))
     });

@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class NoEntityException extends LabException {
+public class NoEntityException extends ApiException {
 
     public NoEntityException() {
         super(HttpStatus.NOT_FOUND, "Entity is not found");

@@ -2,6 +2,7 @@ package com.soa.lab2.service.impl;
 
 import com.soa.lab2.data.dto.LabDTO;
 import com.soa.lab2.exception.NoEntityException;
+import com.soa.lab2.exception.RSQLException;
 import com.soa.lab2.model.Difficulty;
 import com.soa.lab2.model.Lab;
 import com.soa.lab2.repository.DisciplineRepository;
@@ -10,6 +11,7 @@ import com.soa.lab2.service.LabsService;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,7 +20,6 @@ import rsql.CustomRsqlVisitor;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,13 +46,16 @@ public class LabsServiceImpl implements LabsService {
         if (filter != null) {
             Node rootNode = new RSQLParser().parse(filter);
             Specification<Lab> spec = rootNode.accept(new CustomRsqlVisitor<>());
-            if (sort != null)
-                return this.labsRepository.findAll(spec, PageRequest.of(page, size, Sort.by(parseToSort(sort)))).getContent();
-            else return this.labsRepository.findAll(spec, PageRequest.of(page, size)).getContent();
-        } else if (sort != null){
-            System.out.println("DDDDDDDDDDDDDDDDDDD");
+            try {
+                if (sort != null)
+                    return this.labsRepository.findAll(spec, PageRequest.of(page, size, Sort.by(parseToSort(sort)))).getContent();
+                else return this.labsRepository.findAll(spec, PageRequest.of(page, size)).getContent();
+            } catch (InvalidDataAccessApiUsageException | IllegalArgumentException e) {
+                e.printStackTrace();
+                throw new RSQLException();
+            }
+        } else if (sort != null)
             return this.labsRepository.findAll(PageRequest.of(page, size, Sort.by(parseToSort(sort)))).getContent();
-        }
 
         return this.labsRepository.findAll(PageRequest.of(page, size)).getContent();
     }

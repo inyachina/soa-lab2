@@ -88,6 +88,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatCardModule,
     MatTableModule,
+    MatCheckboxModule,
     MatExpansionModule,
     MatTabsModule,
     MatCheckboxModule,

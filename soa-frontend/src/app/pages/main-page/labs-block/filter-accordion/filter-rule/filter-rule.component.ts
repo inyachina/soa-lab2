@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {FilterFormGroup, FilterProperty, PropertyFormGroup} from "../../../../../types/LabType";
+import {MatCheckboxChange} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-filter-rule',
@@ -28,10 +29,11 @@ export class FilterRuleComponent implements OnInit {
     this.type = this.propertyFormGroup.controls.type.getRawValue();
   }
 
-  isDirtyForm= () =>  this.sortControl.dirty || this.filterFormGroup.controls.rule.dirty || this.filterFormGroup.controls.value.dirty
+  isDirtyForm = () => this.sortControl.dirty || this.filterFormGroup.controls.rule.dirty || this.filterFormGroup.controls.value.dirty
 
-  isNumber = () =>  this.type == "number"
+  isNumber = () => this.type == "number"
 
+  isEnum = () => this.type == "enum"
 
   clearForm() {
     this.sortControl.setValue(null)
@@ -40,5 +42,12 @@ export class FilterRuleComponent implements OnInit {
     this.sortControl.markAsPristine()
     this.filterFormGroup.controls.rule.markAsPristine()
     this.filterFormGroup.controls.value.markAsPristine()
+  }
+
+  private checkedDifficulties = new Set<string>();
+  checkDifficulty($event: MatCheckboxChange) {
+    if ($event.checked) this.checkedDifficulties.add($event.source.value)
+    else this.checkedDifficulties.delete($event.source.value)
+    this.filterFormGroup.controls.value.setValue(this.checkedDifficulties)
   }
 }

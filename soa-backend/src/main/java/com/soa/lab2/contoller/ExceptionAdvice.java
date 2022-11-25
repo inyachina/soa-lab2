@@ -1,7 +1,8 @@
 package com.soa.lab2.contoller;
 
 import com.soa.lab2.data.ExceptionResponse;
-import com.soa.lab2.exception.LabException;
+import com.soa.lab2.exception.ApiException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,13 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionAdvice {
 
-    @ExceptionHandler(LabException.class)
-    public ResponseEntity handleServerException(LabException e) {
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity handleServerException(ApiException e) {
         e.printStackTrace();
         return ResponseEntity
                 .status(e.getStatus())
                 .body(new ExceptionResponse(e.getClass().getName(),
-                        (!e.getMessage().isEmpty()) ? e.getMessage() : e.getDefaultMessage()));
+                        (e.getMessage() != null) ? e.getMessage() : e.getDefaultMessage()));
     }
 
     @ExceptionHandler(Exception.class)

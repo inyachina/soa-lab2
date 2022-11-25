@@ -1,5 +1,6 @@
 package rsql;
 
+import com.soa.lab2.model.Difficulty;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -65,9 +66,9 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
             if (type.equals(Integer.class)) return Integer.parseInt(arg);
             else if (type.equals(Long.class)) return Long.parseLong(arg);
             else if (type.equals(Float.class)) return Float.parseFloat(arg);
-                //жиза
-            else if (type.toString().equals("float")) return Float.parseFloat(arg);
+            else if (type.equals(Double.class)) return Double.parseDouble(arg);
             else if (type.equals(Byte.class)) return Byte.parseByte(arg);
+            else if (type.equals(Difficulty.class)) return Difficulty.valueOf(arg);
             else return arg;
         }).collect(Collectors.toList());
     }

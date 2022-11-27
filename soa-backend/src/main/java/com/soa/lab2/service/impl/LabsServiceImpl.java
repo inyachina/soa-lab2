@@ -7,6 +7,7 @@ import com.soa.lab2.model.Difficulty;
 import com.soa.lab2.model.Lab;
 import com.soa.lab2.repository.DisciplineRepository;
 import com.soa.lab2.repository.LabsRepository;
+import com.soa.lab2.rsql.CustomRsqlVisitor;
 import com.soa.lab2.service.LabsService;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import rsql.CustomRsqlVisitor;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;

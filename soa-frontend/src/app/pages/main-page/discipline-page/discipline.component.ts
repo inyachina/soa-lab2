@@ -4,10 +4,11 @@ import {Discipline} from "../../../types/LabType";
 import {MatDialog} from "@angular/material/dialog";
 import {DisciplineFormComponent} from "../discipline-form/discipline-form.component";
 import {HttpService} from "../../../services/http.service";
-import {DISCIPLINE_URL} from "../../../../data/api";
+import {DISCIPLINE_SECOND_SERVICE_URI, DISCIPLINE_URI, LABS_URI} from "../../../../data/api";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatPaginator} from "@angular/material/paginator";
 import {SuggestionPopupComponent} from "../../../common/suggestion-popup/suggestion-popup.component";
+import {HardcoreLabsPopupComponent} from "./hardcore-labs-popup/hardcore-labs-popup.component";
 
 @Component({
   selector: 'app-discipline',
@@ -16,7 +17,7 @@ import {SuggestionPopupComponent} from "../../../common/suggestion-popup/suggest
 })
 export class DisciplineComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  public dataSource= new MatTableDataSource<Discipline>([]);
+  public dataSource = new MatTableDataSource<Discipline>([]);
   public displayedColumns: string[] = ['name', 'lectureHours', 'selfStudyHours', 'action'];
   private isOpenPopup = false;
 
@@ -30,13 +31,13 @@ export class DisciplineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   this.getDisciplines()
+    this.getDisciplines()
     //todo remove
     // this.clickAddButton()
   }
 
-  public getDisciplines(){
-    this._http.getData<Discipline[]>(DISCIPLINE_URL).subscribe((res: Discipline[]) => {
+  public getDisciplines() {
+    this._http.getData<Discipline[]>(DISCIPLINE_URI).subscribe((res: Discipline[]) => {
         this.dataSource.data = res;
         this.dataSource.paginator = this.paginator;
         this._cdr.markForCheck();
@@ -51,7 +52,7 @@ export class DisciplineComponent implements OnInit {
       .subscribe((res) => {
         if (!res) return;
 
-        this._http.postData<Discipline>(DISCIPLINE_URL, res).subscribe(
+        this._http.postData<Discipline>(DISCIPLINE_URI, res).subscribe(
           (res: Discipline) => {
             this.getDisciplines()
           })
@@ -66,8 +67,17 @@ export class DisciplineComponent implements OnInit {
     }).afterClosed().subscribe((res) => {
       if (!res) return;
 
-      this._http.deleteData(DISCIPLINE_URL + `/${discipline.id}`).subscribe((res) =>{
+      this._http.deleteData(DISCIPLINE_URI + `/${discipline.id}`).subscribe((res) => {
         this.getDisciplines()
+      })
+    })
+  }
+
+  clickHardcoreLabs(discipline: Discipline) {
+    this._http.getData(`${DISCIPLINE_SECOND_SERVICE_URI}/${discipline.id}/get-hardcore`)
+      .subscribe((res) => {
+      this.dialog.open(HardcoreLabsPopupComponent, {
+        // data: res,
       })
     })
   }

@@ -1,15 +1,11 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {ApiResponse, QueryParams} from "../types/httpType";
-import {SERVER_URL} from "../../data/api";
+import {HttpClient, HttpErrorResponse, HttpHeaders,} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {QueryParams} from "../types/httpType";
+
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +15,8 @@ export class HttpService {
     private _snackBar: MatSnackBar,
     private _http: HttpClient,
     private _router: Router,
-  ) {}
+  ) {
+  }
 
   private _createDefaultHeaders(noAuth?: boolean): HttpHeaders {
     const headers = new HttpHeaders({
@@ -32,7 +29,9 @@ export class HttpService {
   }
 
   private _removeNullParams(params: QueryParams | undefined): {} | null {
-    if (!params) { return null; }
+    if (!params) {
+      return null;
+    }
 
     return Object.entries(params).reduce(
       (a: QueryParams, [k, v]) => (v === null ? a : ((a[k] = v), a)),
@@ -45,7 +44,7 @@ export class HttpService {
     params?: QueryParams,
   ): Observable<R> {
     return this._http
-      .get<R>(SERVER_URL + url, {
+      .get<R>(url, {
         headers: this._createDefaultHeaders(),
         params: this._removeNullParams(params) || undefined,
       })
@@ -62,7 +61,7 @@ export class HttpService {
     params?: QueryParams,
   ): Observable<R> {
     return this._http
-      .put<R>(SERVER_URL + url, body, {
+      .put<R>(url, body, {
         headers: this._createDefaultHeaders(),
         params: this._removeNullParams(params) || undefined,
       })
@@ -80,7 +79,7 @@ export class HttpService {
     noAuth?: boolean,
   ): Observable<R> {
     return this._http
-      .post<R>(SERVER_URL + url, body, {
+      .post<R>(url, body, {
         headers: this._createDefaultHeaders(noAuth),
         params: this._removeNullParams(params) || undefined,
       }).pipe(
@@ -95,7 +94,7 @@ export class HttpService {
     params?: QueryParams,
   ): Observable<R> {
     return this._http
-      .delete<R>(SERVER_URL + url, {
+      .delete<R>(url, {
         headers: this._createDefaultHeaders(),
         params: this._removeNullParams(params) || undefined,
       })
@@ -111,12 +110,12 @@ export class HttpService {
       duration: 3000,
     });
 
-    if (e.status == 404){
-      this._router.navigate(['/'],{
+    if (e.status == 404) {
+      this._router.navigate(['/'], {
         queryParams: {
           tab: 'labs'
         }
-      } )
+      })
     }
     return throwError(e);
   }

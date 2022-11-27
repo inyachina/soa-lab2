@@ -8,3 +8,14 @@ spring:
     generate-ddl: true
 server:
   port: 8081
+  ssl:
+    enabled: true
+    client-auth: need
+    key-store: D:\code\soa-lab2\soa-backend\nt-ms.jks
+    key-store-password: 123456
+    key-alias: nt-ms
+    key-store-type: JKS
+    key-store-provider: SUN
+    trust-store: D:\code\soa-lab2\soa-backend\nt-ms.jks
+    trust-store-password: 123456
+    trust-store-type: JKS

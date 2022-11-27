@@ -31,7 +31,10 @@
           <mat-menu #menu="matMenu">
             <button mat-menu-item>
               <mat-icon class="dots">offline_bolt</mat-icon>
-              <span>Make hardcore</span>
+              <span
+                class="pointer"
+                (click)="clickHardcoreLabs(element)"
+              >Get 10 hardcore labs</span>
             </button>
             <button
               (click)="clickDeleteButton(element)"

@@ -3,7 +3,7 @@ import {Lab} from "../../../types/LabType";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {HttpService} from "../../../services/http.service";
-import {LABS_URL} from "../../../../data/api";
+import {LABS_URI} from "../../../../data/api";
 import {Observable} from "rxjs";
 
 @Component({
@@ -25,7 +25,7 @@ export class LabPageComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe((params: Params) => {
       const id = params['id']
-      this.$lab = this._http.getData<Lab>(LABS_URL + `/${id}`,)
+      this.$lab = this._http.getData<Lab>(LABS_URI + `/${id}`,)
     });
   }
 

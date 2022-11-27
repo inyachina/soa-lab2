@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {LabForm} from "../lab-form/lab-form";
 import {HttpService} from "../../../services/http.service";
-import {LABS_URL} from "../../../../data/api";
+import {LABS_URI} from "../../../../data/api";
 import {DifficultyType, Lab, LabMapperDTO, PropertyType} from "../../../types/LabType";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AveragePopupComponent} from "./average-popup/average-popup.component";
@@ -36,10 +36,10 @@ export class LabsBlockComponent implements OnInit {
 
 
   public getLabs() {
-    this._http.getData<number>(LABS_URL + '/amount').subscribe((res) => {
+    this._http.getData<number>(LABS_URI + '/amount').subscribe((res) => {
       this.labAmount = res;
     })
-    this._http.getData<Lab[]>(LABS_URL, {
+    this._http.getData<Lab[]>(LABS_URI, {
       page: this.pageIndex,
       size: this.pageSize,
       sort: this.sort || null,
@@ -54,7 +54,7 @@ export class LabsBlockComponent implements OnInit {
     this.dialog.open(LabForm).afterClosed()
       .subscribe((lab: Lab) => {
         // @ts-ignore
-        this._http.postData(LABS_URL, LabMapperDTO(lab, lab.discipline))
+        this._http.postData(LABS_URI, LabMapperDTO(lab, lab.discipline))
           .subscribe((res) => {
               this._snackBar.open('Lab was successfully add', 'Close', {
                 duration: 3000,
@@ -66,7 +66,7 @@ export class LabsBlockComponent implements OnInit {
   }
 
   clickAverageMinPointButton() {
-    this._http.getData<number>(LABS_URL + '/average/minimal_point').subscribe((res) => {
+    this._http.getData<number>(LABS_URI + '/average/minimal_point').subscribe((res) => {
       this.dialog.open(AveragePopupComponent, {
         data: res,
         panelClass: 'green-dialog'
@@ -83,7 +83,7 @@ export class LabsBlockComponent implements OnInit {
     ) => {
       if (!res.flag) return;
 
-      this._http.deleteData<number>(LABS_URL + '/delete_by/difficulty', {difficulty: res.difficultyType})
+      this._http.deleteData<number>(LABS_URI + '/delete_by/difficulty', {difficulty: res.difficultyType})
         .subscribe((res) => {
           this._snackBar.open('Lab was successfully deleted', 'Close', {
             duration: 3000,

@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {DifficultyType, Discipline, Lab, LabFormGroup, LabMapperDTO} from "../../../types/LabType";
 import {map, Observable} from "rxjs";
 import {HttpService} from "../../../services/http.service";
-import {DISCIPLINE_URL, LABS_URL} from "../../../../data/api";
+import {DISCIPLINE_URI, LABS_URI} from "../../../../data/api";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {SuggestionPopupComponent} from "../../../common/suggestion-popup/suggestion-popup.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -64,7 +64,7 @@ export class LabForm implements AfterViewInit {
 
     this.filteredDisciplines = this.form.controls.discipline.valueChanges
       .pipe(map(value => this._filter(value || '')),)
-    this._http.getData<Discipline[]>(DISCIPLINE_URL).subscribe((res) => this.disciplines = res)
+    this._http.getData<Discipline[]>(DISCIPLINE_URI).subscribe((res) => this.disciplines = res)
     this.$lab?.subscribe((lab) => this.setLabForm(lab))
   }
 
@@ -95,7 +95,7 @@ export class LabForm implements AfterViewInit {
     }).afterClosed().subscribe((res) => {
       if (!res) return;
 
-      this._http.deleteData(LABS_URL + `/${this.lab?.id}`).subscribe(() => {
+      this._http.deleteData(LABS_URI + `/${this.lab?.id}`).subscribe(() => {
           this._router.navigate([`/`], {
             queryParams: {
               tab: 'labs'
@@ -108,7 +108,7 @@ export class LabForm implements AfterViewInit {
 
   editLab() {
     // @ts-ignore
-    this._http.putData<Lab>(LABS_URL + `/${this.lab?.id}`, LabMapperDTO(this.form.getRawValue(), this.form.getRawValue().discipline))
+    this._http.putData<Lab>(LABS_URI + `/${this.lab?.id}`, LabMapperDTO(this.form.getRawValue(), this.form.getRawValue().discipline))
       .subscribe((res) => {
         this.setLabForm(res);
         this._snackBar.open('Lab was successfully updated', 'Close', {

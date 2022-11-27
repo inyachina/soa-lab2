@@ -1,0 +1,5 @@
+com\soa\soabackenddisciplineservice\model\Difficulty.class
+com\soa\soabackenddisciplineservice\DisciplineResource.class
+com\soa\soabackenddisciplineservice\SoaApplication.class
+com\soa\soabackenddisciplineservice\model\Lab.class
+com\soa\soabackenddisciplineservice\model\Discipline.class

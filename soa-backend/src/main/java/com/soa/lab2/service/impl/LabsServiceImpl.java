@@ -111,17 +111,18 @@ public class LabsServiceImpl implements LabsService {
 
     @Override
     @Transactional
-    public Lab update(Integer id, LabDTO newLab) {
+    public Lab update(Integer id, LabDTO modLab) {
         return this.labsRepository.findById(id).map((lab ->
-                        this.disciplineRepository.getByName(newLab.getDisciplineName()).map((discipline) ->
+                        this.disciplineRepository.getByName(modLab.getDisciplineName()).map((discipline) ->
                                 this.labsRepository.save(lab.toBuilder()
-                                        .name(newLab.getName())
-                                        .x(newLab.getX())
-                                        .y(newLab.getY())
+                                        .name(modLab.getName())
+                                        .x(modLab.getX())
+                                        .y(modLab.getY())
+                                        .creationDate(modLab.getCreationDate())
                                         .discipline(discipline)
-                                        .difficulty(newLab.getDifficulty())
-                                        .minimalPoint(newLab.getMinimalPoint())
-                                        .personalQualitiesMaximum(newLab.getPersonalQualitiesMaximum())
+                                        .difficulty(modLab.getDifficulty())
+                                        .minimalPoint(modLab.getMinimalPoint())
+                                        .personalQualitiesMaximum(modLab.getPersonalQualitiesMaximum())
                                         .build())
                         ).orElseThrow(() -> new NoEntityException("There is no such discipline"))))
                 .orElseThrow(() -> new NoEntityException("Something went wrong, couldn't find this lab to update"));

@@ -1,7 +1,6 @@
 package com.soa.lab2.contoller;
 
 import com.soa.lab2.data.dto.LabDTO;
-import com.soa.lab2.exception.EmptyCollectionException;
 import com.soa.lab2.exception.NoEntityException;
 import com.soa.lab2.model.Lab;
 import com.soa.lab2.service.impl.DisciplineServiceImpl;
@@ -44,6 +43,7 @@ public class LabsController {
 
     @GetMapping("/all")
     private ResponseEntity getLabs() {
+        log.info("Processing get labs all request");
         List<Lab> labs = labsService.findAll();
         return ResponseEntity.ok().body(labs);
     }
@@ -55,11 +55,13 @@ public class LabsController {
 
     @PostMapping
     private ResponseEntity<Lab> saveLab(@RequestBody LabDTO labDTO) {
+        log.info("Processing save lab request");
         return ResponseEntity.ok().body(this.labsService.save(labDTO));
     }
 
     @GetMapping("/{id}")
     private ResponseEntity getLab(@PathVariable Integer id) {
+        log.info("Processing get lab id:{} request", id);
         Optional<Lab> lab = this.labsService.findById(id);
         if (lab.isEmpty())
             throw new NoEntityException("Lab with such id doesn't exist");
@@ -68,12 +70,15 @@ public class LabsController {
 
     @DeleteMapping("/{id}")
     private ResponseEntity deleteLab(@PathVariable Integer id) {
+        log.info("Processing delete lab id:{} request", id);
         this.labsService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     private ResponseEntity updateLab(@PathVariable Integer id, @RequestBody LabDTO labDTO) {
+        log.info("Processing get update id:{} request", id);
+        System.out.println(labDTO);
         return ResponseEntity.ok().body(this.labsService.update(id, labDTO));
     }
 }

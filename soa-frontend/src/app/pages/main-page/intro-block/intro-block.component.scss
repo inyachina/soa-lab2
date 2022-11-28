@@ -7,18 +7,19 @@
   background: $accept_color;
   border-left: 2px solid $dark_color;
   border-right: 2px solid $dark_color;
-  grid-template-columns: 70% 40%;
-
-  .filter_grid{
+  grid-template-columns: 80% 20%;
+  .filter_grid {
     position: absolute;
     top: 0;
     height: 100%;
     width: 100%;
     background-image: url(../../../../assets/img/grid.svg);
   }
+
   .title_container {
     z-index: 1;
-   height: 90vh;
+    height: 90vh;
+
     .title {
       font-size: 4rem;
       font-weight: bolder;

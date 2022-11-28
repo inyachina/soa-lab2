@@ -38,10 +38,12 @@ export class LabPageComponent implements OnInit {
   }
 
   changeTab(event: MatTabChangeEvent) {
-    if (event.index == 1) {
+    if (event.index == 1)
+      this.redirect("about")
+    if (event.index == 2)
       this.redirect("labs")
-    } else {
-      this.redirect("disciplines")
-    }
+
+    else this.redirect("disciplines")
+
   }
 }

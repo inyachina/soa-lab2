@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {Discipline} from "../../../types/LabType";
+import {Discipline, Lab} from "../../../types/LabType";
 import {MatDialog} from "@angular/material/dialog";
 import {DisciplineFormComponent} from "../discipline-form/discipline-form.component";
 import {HttpService} from "../../../services/http.service";
@@ -74,11 +74,12 @@ export class DisciplineComponent implements OnInit {
   }
 
   clickHardcoreLabs(discipline: Discipline) {
-    this._http.getData(`${DISCIPLINE_SECOND_SERVICE_URI}/${discipline.id}/get-hardcore`)
-      .subscribe((res) => {
-      this.dialog.open(HardcoreLabsPopupComponent, {
-        // data: res,
+    this._http.getData<Lab[]>(`http://localhost:4124/soa-backend-additional-service-1.0-SNAPSHOT/bars/api/v1/disciplines/${discipline.id}/get-hardcore`)
+      .subscribe((res: Lab[]) => {
+        console.log(res)
+        this.dialog.open(HardcoreLabsPopupComponent, {
+          data: res.filter(res => res.difficulty == "VERY_HARD").slice(0, 10),
+        })
       })
-    })
   }
 }

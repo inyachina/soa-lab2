@@ -29,19 +29,20 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>
+            <button mat-menu-item
+                    (click)="clickHardcoreLabs(element)"
+            >
               <mat-icon class="dots">offline_bolt</mat-icon>
               <span
                 class="pointer"
-                (click)="clickHardcoreLabs(element)"
               >Get 10 hardcore labs</span>
             </button>
-            <button
-              (click)="clickDeleteButton(element)"
-              mat-menu-item>
-              <mat-icon class="dots">delete</mat-icon>
-              <span>Delete</span>
-            </button>
+<!--            <button-->
+<!--              (click)="clickDeleteButton(element)"-->
+<!--              mat-menu-item>-->
+<!--              <mat-icon class="dots">delete</mat-icon>-->
+<!--              <span>Delete</span>-->
+<!--            </button>-->
           </mat-menu>
         </td>
       </ng-container>

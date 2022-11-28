@@ -40,7 +40,9 @@
     color: #1a1a1a;
   }
 }
-
+.mat-paginator-range-label{
+  display: none;
+}
 ::ng-deep .page_select{
   height: 1.5rem;
   font-size: 0.7rem;

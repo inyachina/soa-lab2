@@ -46,6 +46,9 @@ export class LabsBlockComponent implements OnInit {
       filter: this.filter || null,
     }).subscribe((res) => {
       this.labs = res;
+      if (res.length < this.pageSize) {
+        this.labAmount = res.length;
+      }
       this._cdr.markForCheck();
     })
   }
@@ -123,9 +126,9 @@ export class LabsBlockComponent implements OnInit {
       if (property.filter?.rule !== null && property.filter?.value !== null)
         if (property.type == "enum") {
           let enumFilterQuery = [];
-          for(const value of ((property.filter.value as unknown as Set<string>).values())){
-              enumFilterQuery.push(property.property + property.filter.rule + value)
-            }
+          for (const value of ((property.filter.value as unknown as Set<string>).values())) {
+            enumFilterQuery.push(property.property + property.filter.rule + value)
+          }
           this.filterQuery.push(enumFilterQuery.join(","))
         } else this.filterQuery.push(property.property + property.filter.rule + (property.type == "string" ? `"${property.filter.value}"` : property.filter.value))
       if (property.sort != null)

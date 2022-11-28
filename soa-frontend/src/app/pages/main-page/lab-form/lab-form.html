@@ -43,6 +43,8 @@
       <mat-form-field appearance="outline">
         <mat-label>Minimal Point</mat-label>
         <input
+          maxlength="5"
+          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
           matInput
           type="number"
           formControlName="minimalPoint">
@@ -52,6 +54,8 @@
       <mat-form-field appearance="outline">
         <mat-label>Personal Qualities Maximum</mat-label>
         <input
+          maxlength="5"
+          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
           type="number"
           matInput
           formControlName="personalQualitiesMaximum">

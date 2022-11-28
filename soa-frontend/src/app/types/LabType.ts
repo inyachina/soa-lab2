@@ -35,7 +35,7 @@ export function LabMapperDTO(lab: Lab, disciplineName: string): LabDto {
 }
 
 export interface Discipline {
-  id?: number | null | undefined;
+  id: number | null | undefined;
   name: string;
   lectureHours: number;
   selfStudyHours: number;

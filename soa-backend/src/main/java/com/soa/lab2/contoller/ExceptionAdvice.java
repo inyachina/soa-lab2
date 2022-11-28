@@ -2,7 +2,7 @@ package com.soa.lab2.contoller;
 
 import com.soa.lab2.data.ExceptionResponse;
 import com.soa.lab2.exception.ApiException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
+import cz.jirutka.rsql.parser.RSQLParserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

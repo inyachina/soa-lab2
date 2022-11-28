@@ -23,4 +23,5 @@ export class LabCardComponent implements OnInit {
     }
     ])
   }
+
 }

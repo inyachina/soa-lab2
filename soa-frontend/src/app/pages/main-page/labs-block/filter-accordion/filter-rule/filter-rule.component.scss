@@ -24,3 +24,11 @@
 .underline {
   text-decoration: underline;
 }
+
+.sort_filter_container{
+  display: flex;
+  flex-wrap: wrap;
+  .filter_part{
+      max-width: 9rem;
+  }
+}

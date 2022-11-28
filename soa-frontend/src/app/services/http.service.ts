@@ -18,7 +18,7 @@ export class HttpService {
   ) {
   }
 
-  private _createDefaultHeaders(noAuth?: boolean): HttpHeaders {
+  private _createDefaultHeaders(): HttpHeaders {
     const headers = new HttpHeaders({
       'X-Requested-With': 'XMLHttpRequest',
       'Content-Type': 'application/json',
@@ -76,11 +76,10 @@ export class HttpService {
     url: string,
     body?: {},
     params?: QueryParams,
-    noAuth?: boolean,
   ): Observable<R> {
     return this._http
       .post<R>(url, body, {
-        headers: this._createDefaultHeaders(noAuth),
+        headers: this._createDefaultHeaders(),
         params: this._removeNullParams(params) || undefined,
       }).pipe(
         catchError<any, any>((err: HttpErrorResponse) =>
@@ -110,13 +109,6 @@ export class HttpService {
       duration: 3000,
     });
 
-    if (e.status == 404) {
-      this._router.navigate(['/'], {
-        queryParams: {
-          tab: 'labs'
-        }
-      })
-    }
     return throwError(e);
   }
 }

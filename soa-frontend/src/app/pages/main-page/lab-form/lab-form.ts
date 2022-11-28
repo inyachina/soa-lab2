@@ -27,22 +27,22 @@ export class LabForm implements AfterViewInit {
 
   public form: LabFormGroup = this._fb.group(
     {
-      // name: [null, Validators.required],
-      // x: [null, Validators.compose([Validators.required, Validators.max(295)])],
-      // y: [null , Validators.min(0)],
-      // creationDate: [null, Validators.required],
-      // minimalPoint: [null, Validators.compose([Validators.required, Validators.min(0)])],
-      // personalQualitiesMaximum: [null, Validators.compose([Validators.required, Validators.min(0)])],
-      // difficulty: [null, Validators.required],
-      // discipline: [null, Validators.required],
-      name: ["name", Validators.required],
-      x: [1, Validators.compose([Validators.required, Validators.max(295)])],
-      y: 1,
-      creationDate: [Date.now, Validators.required],
-      minimalPoint: [1, Validators.required],
-      personalQualitiesMaximum: [2, Validators.required],
-      difficulty: ["VERY_EASY", Validators.required],
-      discipline: ["soa", Validators.required],
+      name: [null, Validators.required],
+      x: [null, Validators.compose([Validators.required, Validators.max(295)])],
+      y: [null , Validators.min(0)],
+      creationDate: [null],
+      minimalPoint: [null, Validators.compose([Validators.required, Validators.min(0)])],
+      personalQualitiesMaximum: [null, Validators.compose([Validators.required, Validators.min(0)])],
+      difficulty: [null, Validators.required],
+      discipline: [null, Validators.required],
+      // name: ["name", Validators.required],
+      // x: [1, Validators.compose([Validators.required, Validators.max(295)])],
+      // y: 1,
+      // creationDate: [Date.now],
+      // minimalPoint: [1, Validators.required],
+      // personalQualitiesMaximum: [2, Validators.required],
+      // difficulty: ["VERY_EASY", Validators.required],
+      // discipline: ["soa", Validators.required],
     }
   );
   private _dialogRef!: any;
@@ -75,7 +75,7 @@ export class LabForm implements AfterViewInit {
     this.form.controls.y.setValue(lab.y)
     this.form.controls.personalQualitiesMaximum.setValue(lab.personalQualitiesMaximum)
     this.form.controls.minimalPoint.setValue(lab.minimalPoint)
-    this.form.controls.discipline.setValue(lab.discipline.name)
+    this.form.controls.discipline.setValue(lab.discipline?.name)
     this.form.controls.difficulty.setValue(lab.difficulty)
     this.form.controls.creationDate.setValue(lab.creationDate)
     this.initialState = JSON.stringify(this.form.getRawValue())
@@ -84,7 +84,7 @@ export class LabForm implements AfterViewInit {
 
   private _filter(value: string): Discipline[] {
     const filterValue = value.toLowerCase();
-    return this.disciplines.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.disciplines.filter(option => option.name?.toLowerCase().includes(filterValue));
   }
 
   deleteLab() {
@@ -95,7 +95,8 @@ export class LabForm implements AfterViewInit {
     }).afterClosed().subscribe((res) => {
       if (!res) return;
 
-      this._http.deleteData(LABS_URI + `/${this.lab?.id}`).subscribe(() => {
+      this._http.deleteData(LABS_URI + `/${this.lab?.id}`)
+        .subscribe(() => {
           this._router.navigate([`/`], {
             queryParams: {
               tab: 'labs'

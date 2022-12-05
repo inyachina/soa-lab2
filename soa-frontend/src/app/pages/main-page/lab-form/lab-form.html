@@ -100,22 +100,34 @@
       Save
     </button>
 
-    <div
-      class="edit_buttons"
-      *ngIf="isEditMode">
-      <button
-        mat-raised-button
-        [disabled]="isDisabledEditButton()"
-        (click)="editLab()"
-      >
-        edit
-      </button>
-      <button
-        (click)="deleteLab()"
-        class="delete_button"
-        mat-raised-button>
-        delete
-      </button>
+    <div class="flex_container__space">
+<!--      <button-->
+<!--        mat-raised-button-->
+<!--        [disabled]="isDisabledDecreaseButton()"-->
+<!--        (click)="decreaseDifficulty()"-->
+<!--      >-->
+<!--        Decrease difficulty-->
+<!--      </button>-->
+      <div
+        class="edit_buttons spa"
+        *ngIf="isEditMode">
+
+        <div class="flex_container gap-1rem">
+          <button
+            mat-raised-button
+            [disabled]="isDisabledEditButton()"
+            (click)="editLab()"
+          >
+            edit
+          </button>
+          <button
+            (click)="deleteLab()"
+            class="delete_button"
+            mat-raised-button>
+            delete
+          </button>
+        </div>
+      </div>
     </div>
   </form>
 </div>

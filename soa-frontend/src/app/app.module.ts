@@ -42,6 +42,7 @@ import {TruncatePipe} from "./services/truncate.pipe";
 import { AveragePopupComponent } from './pages/main-page/labs-block/average-popup/average-popup.component';
 import { DeletePopupComponent } from './pages/main-page/labs-block/delete-popup/delete-popup.component';
 import { HardcoreLabsPopupComponent } from './pages/main-page/discipline-page/hardcore-labs-popup/hardcore-labs-popup.component';
+import { LevelPopupComponent } from './pages/main-page/discipline-form/level-popup/level-popup.component';
 
 const appRoutes: Routes = [
   {path: '', component: MainPageComponent},
@@ -71,6 +72,7 @@ const appRoutes: Routes = [
     AveragePopupComponent,
     DeletePopupComponent,
     HardcoreLabsPopupComponent,
+    LevelPopupComponent,
   ],
   imports: [
     ReactiveFormsModule,

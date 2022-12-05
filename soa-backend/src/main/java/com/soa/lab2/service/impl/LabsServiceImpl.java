@@ -1,8 +1,10 @@
 package com.soa.lab2.service.impl;
 
 import com.soa.lab2.data.dto.LabDTO;
-import com.soa.lab2.exception.NoEntityException;
-import com.soa.lab2.exception.RSQLException;
+import com.soa.lab2.exception.BadRequestException;
+import com.soa.lab2.exception.FilterException;
+import com.soa.lab2.exception.NotFoundException;
+import com.soa.lab2.exception.SortException;
 import com.soa.lab2.model.Difficulty;
 import com.soa.lab2.model.Lab;
 import com.soa.lab2.repository.DisciplineRepository;
@@ -21,7 +23,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -52,7 +53,7 @@ public class LabsServiceImpl implements LabsService {
                 else return this.labsRepository.findAll(spec, PageRequest.of(page, size)).getContent();
             } catch (InvalidDataAccessApiUsageException | IllegalArgumentException e) {
                 e.printStackTrace();
-                throw new RSQLException();
+                throw new FilterException();
             }
         } else if (sort != null)
             return this.labsRepository.findAll(PageRequest.of(page, size, Sort.by(parseToSort(sort)))).getContent();
@@ -60,10 +61,14 @@ public class LabsServiceImpl implements LabsService {
         return this.labsRepository.findAll(PageRequest.of(page, size)).getContent();
     }
 
-    private List<Sort.Order> parseToSort(String sortRule) {
-        return Stream.of(sortRule.split(";"))
-                .map(x -> new Sort.Order(Sort.Direction.valueOf(x.split(",")[1].toUpperCase()), x.split(",")[0]))
-                .collect(Collectors.toList());
+    private List<Sort.Order> parseToSort(String sortRule) throws SortException {
+        try {
+            return Stream.of(sortRule.split(";"))
+                    .map(x -> new Sort.Order(Sort.Direction.valueOf(x.split(",")[1].toUpperCase()), x.split(",")[0]))
+                    .collect(Collectors.toList());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new SortException();
+        }
     }
 
     @Override
@@ -79,12 +84,12 @@ public class LabsServiceImpl implements LabsService {
                         .minimalPoint(labDTO.getMinimalPoint())
                         .personalQualitiesMaximum(labDTO.getPersonalQualitiesMaximum())
                         .build())
-        ).orElseThrow(() -> new NoEntityException("There is no such discipline"));
+        ).orElseThrow(() -> new NotFoundException("There is no such discipline"));
     }
 
     @Override
-    public Optional<Lab> findById(Integer id) {
-        return labsRepository.findById(id);
+    public Lab findById(Integer id) throws NotFoundException {
+        return labsRepository.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
     @Override
@@ -93,25 +98,24 @@ public class LabsServiceImpl implements LabsService {
     }
 
     @Override
-    public void delete(Lab entity) {
-        labsRepository.delete(entity);
+    public void delete(Lab lab) throws NotFoundException {
+        labsRepository.delete(lab);
     }
-
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Integer id) throws NotFoundException {
         labsRepository.deleteById(id);
     }
 
     @Override
-    public void deleteByDifficulty(Difficulty difficulty) {
+    public void deleteByDifficulty(Difficulty difficulty) throws NotFoundException {
         List<Lab> labs = this.labsRepository.findByDifficulty(difficulty);
-        if (labs.isEmpty()) throw new NoEntityException("There is no a single lab with such difficulty");
+        if (labs.isEmpty()) throw new NotFoundException("There is no a single lab with such difficulty");
         this.labsRepository.delete(labs.get(0));
     }
 
     @Override
     @Transactional
-    public Lab update(Integer id, LabDTO modLab) {
+    public Lab update(Integer id, LabDTO modLab) throws NotFoundException {
         return this.labsRepository.findById(id).map((lab ->
                         this.disciplineRepository.getByName(modLab.getDisciplineName()).map((discipline) ->
                                 this.labsRepository.save(lab.toBuilder()
@@ -124,7 +128,7 @@ public class LabsServiceImpl implements LabsService {
                                         .minimalPoint(modLab.getMinimalPoint())
                                         .personalQualitiesMaximum(modLab.getPersonalQualitiesMaximum())
                                         .build())
-                        ).orElseThrow(() -> new NoEntityException("There is no such discipline"))))
-                .orElseThrow(() -> new NoEntityException("Something went wrong, couldn't find this lab to update"));
+                        ).orElseThrow(() -> new NotFoundException("There is no such discipline"))))
+                .orElseThrow(() -> new NotFoundException("Couldn't find this lab to update"));
     }
 }

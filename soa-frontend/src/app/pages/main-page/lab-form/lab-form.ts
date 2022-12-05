@@ -8,6 +8,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {SuggestionPopupComponent} from "../../../common/suggestion-popup/suggestion-popup.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {LevelPopupComponent} from "../discipline-form/level-popup/level-popup.component";
 
 @Component({
   selector: 'app-lab-form',
@@ -127,4 +128,13 @@ export class LabForm implements AfterViewInit {
   isDisabledEditButton = () => this.initialState === JSON.stringify(this.form.getRawValue())
 
 
+  // decreaseDifficulty() {
+  //   this._dialog.open(LevelPopupComponent).afterClosed().subscribe((res) => {
+  //     if (!res) return;
+  //
+  //     this._http.postData()
+  //   })
+  // }
+
+  isDisabledDecreaseButton = () => this.lab?.difficulty == "VERY_EASY" ;
 }

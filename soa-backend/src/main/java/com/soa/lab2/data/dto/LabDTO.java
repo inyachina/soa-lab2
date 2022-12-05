@@ -4,6 +4,7 @@ import com.soa.lab2.model.Difficulty;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @NonNull
@@ -18,6 +19,7 @@ public class LabDTO {
 
     private String name;
 
+    @Size(max = 295)
     private double x;
 
     @Nullable

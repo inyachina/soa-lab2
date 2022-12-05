@@ -1,11 +1,11 @@
 package com.soa.lab2.service;
 
 import com.soa.lab2.data.dto.LabDTO;
+import com.soa.lab2.exception.NotFoundException;
 import com.soa.lab2.model.Difficulty;
 import com.soa.lab2.model.Lab;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LabsService {
     List<Lab> findAll();
@@ -14,15 +14,15 @@ public interface LabsService {
 
     Lab save(LabDTO entity);
 
-    Optional<Lab> findById(Integer integer);
+    Lab findById(Integer integer) throws NotFoundException;
 
     long count();
 
-    void delete(Lab entity);
+    void delete(Lab entity) throws NotFoundException;
 
-    void deleteById(Integer id);
+    void deleteById(Integer id) throws NotFoundException;
 
-    void deleteByDifficulty(Difficulty difficulty);
+    void deleteByDifficulty(Difficulty difficulty) throws NotFoundException;
 
-    Lab update(Integer id, LabDTO labDTO);
+    Lab update(Integer id, LabDTO labDTO) throws NotFoundException;
 }

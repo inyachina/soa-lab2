@@ -2,18 +2,17 @@ package com.soa.lab2.service;
 
 import com.soa.lab2.data.dto.DisciplineDTO;
 import com.soa.lab2.model.Discipline;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface DisciplineService {
-    List<Discipline> findAll();
+    List<Discipline> findAll(Integer page, Integer size);
 
     Discipline save(DisciplineDTO disciplineDTO);
 
-    Optional<Discipline> getById(Integer id);
-
-    Optional<Discipline> getByName(String id);
-
     void deleteById(Integer id);
+
+    Object count();
 }

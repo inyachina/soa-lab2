@@ -105,7 +105,12 @@ export class HttpService {
   }
 
   private _handleError(e: HttpErrorResponse): Observable<Error> {
-    this._snackBar.open(e.error.message || "Something went wrong", 'Close', {
+    let customMessage;
+    switch (e.status){
+      case 400:
+        customMessage = "Bad Request"
+    }
+    this._snackBar.open(customMessage || e.error.message, 'Close', {
       duration: 3000,
     });
 

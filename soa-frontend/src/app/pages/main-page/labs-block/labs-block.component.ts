@@ -45,6 +45,11 @@ export class LabsBlockComponent implements OnInit {
       sort: this.sort || null,
       filter: this.filter || null,
     }).subscribe((res) => {
+      if (!res) {
+        this.labs = [];
+        return
+      }
+
       this.labs = res;
       if (res.length < this.pageSize) {
         this.labAmount = res.length;

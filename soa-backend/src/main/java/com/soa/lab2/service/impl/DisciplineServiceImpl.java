@@ -7,10 +7,10 @@ import com.soa.lab2.repository.DisciplineRepository;
 import com.soa.lab2.service.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DisciplineServiceImpl implements DisciplineService {
@@ -22,8 +22,8 @@ public class DisciplineServiceImpl implements DisciplineService {
     }
 
     @Override
-    public List<Discipline> findAll() {
-        return disciplineRepository.findAll();
+    public List<Discipline> findAll(Integer page, Integer size) {
+        return disciplineRepository.findAll(PageRequest.of(page, size));
     }
 
     @Override
@@ -42,18 +42,13 @@ public class DisciplineServiceImpl implements DisciplineService {
     }
 
     @Override
-    public Optional<Discipline> getById(Integer id) {
-        return this.disciplineRepository.getById(id);
-    }
-
-    @Override
-    public Optional<Discipline> getByName(String name) {
-        return this.disciplineRepository.getByName(name);
-    }
-
-    @Override
     public void deleteById(Integer id) {
         this.disciplineRepository.deleteById(id);
+    }
+
+    @Override
+    public Object count() {
+        return this.disciplineRepository.count();
     }
 
 }

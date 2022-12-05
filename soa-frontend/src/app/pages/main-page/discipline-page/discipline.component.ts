@@ -4,7 +4,7 @@ import {Discipline, Lab} from "../../../types/LabType";
 import {MatDialog} from "@angular/material/dialog";
 import {DisciplineFormComponent} from "../discipline-form/discipline-form.component";
 import {HttpService} from "../../../services/http.service";
-import {DISCIPLINE_SECOND_SERVICE_URI, DISCIPLINE_URI, LABS_URI} from "../../../../data/api";
+import {DISCIPLINE_URI} from "../../../../data/api";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatPaginator} from "@angular/material/paginator";
 import {SuggestionPopupComponent} from "../../../common/suggestion-popup/suggestion-popup.component";
@@ -20,6 +20,12 @@ export class DisciplineComponent implements OnInit {
   public dataSource = new MatTableDataSource<Discipline>([]);
   public displayedColumns: string[] = ['name', 'lectureHours', 'selfStudyHours', 'action'];
   private isOpenPopup = false;
+  public pageIndex = 0;
+  public pageSize = 10;
+  public pageSizeOptions = [5, 10, 15, 25, 50, 100];
+  public disciplineAmount?: number;
+  public filter?: string;
+  public sort?: string;
 
   constructor(
     private dialog: MatDialog,
@@ -37,12 +43,18 @@ export class DisciplineComponent implements OnInit {
   }
 
   public getDisciplines() {
-    this._http.getData<Discipline[]>(DISCIPLINE_URI).subscribe((res: Discipline[]) => {
-        this.dataSource.data = res;
-        this.dataSource.paginator = this.paginator;
-        this._cdr.markForCheck();
-      }
-    )
+    this._http.getData<number>(DISCIPLINE_URI + "/amount").subscribe((length) => {
+      this.disciplineAmount = length;
+      this._http.getData<Discipline[]>(DISCIPLINE_URI, {
+        page: this.pageIndex,
+        size: this.pageSize
+      }).subscribe((res: Discipline[]) => {
+          this.dataSource.data = res;
+          this._cdr.detectChanges();
+        }
+      )
+
+    })
   }
 
   public clickAddButton() {
@@ -74,12 +86,17 @@ export class DisciplineComponent implements OnInit {
   }
 
   clickHardcoreLabs(discipline: Discipline) {
-    this._http.getData<Lab[]>(`http://localhost:4124/soa-backend-additional-service-1.0-SNAPSHOT/bars/api/v1/disciplines/${discipline.id}/get-hardcore`)
+    this._http.getData<Lab[]>(`http://localhost:41549/soa-backend-additional-service-1.0-SNAPSHOT/bars/api/v1/disciplines/${discipline.id}/get-hardcore`)
       .subscribe((res: Lab[]) => {
-        console.log(res)
         this.dialog.open(HardcoreLabsPopupComponent, {
           data: res.filter(res => res.difficulty == "VERY_HARD").slice(0, 10),
         })
       })
+  }
+
+  onPageChange($event: any) {
+    this.pageSize = $event.pageSize
+    this.pageIndex = $event.pageIndex
+    this.getDisciplines()
   }
 }

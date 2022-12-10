@@ -3,6 +3,7 @@ package com.soa.lab2;
 import com.soa.lab2.data.dto.LabDTO;
 import com.soa.lab2.exception.DecreaseDifficultyException;
 import com.soa.lab2.model.Difficulty;
+import com.soa.lab2.model.Discipline;
 import com.soa.lab2.model.Lab;
 
 import javax.ejb.Stateless;
@@ -18,19 +19,25 @@ import java.util.stream.Collectors;
 
 @Stateless
 public class ServiceBean {
-    private final int PORT = 41549;
-    private final String HOST = "http://localhost:";
-    private final String URI = HOST + PORT + "/" + "api/v1";
+    private final String HOST = "https://localhost:41571/lab2-0.0.1-SNAPSHOT/";
+    private final String URI = HOST + "/" + "api/v1";
     private final String URI_LABS = URI + "/labs";
+    private final String URI_DISCIPLINES = URI + "/disciplines";
     public Client client;
 
 
     public Response getHardcoreLabsByDiscipline(Integer id) {
         client = ClientBuilder.newClient();
-        List<Lab> labs = client.target(URI_LABS + "/all").request(MediaType.APPLICATION_JSON).get(new GenericType<List<Lab>>() {
-        });
+        List<Lab> labs = client.target(URI_LABS + "/all").request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<Lab>>() {
+                });
+        Discipline discipline = client.target(URI_DISCIPLINES + "/" + id).request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<Discipline>() {
+                });
         client.close();
 
+        if (discipline == null) throw new NotFoundException("There is no such discipline");
+        if (labs.isEmpty()) return Response.ok().build();
         return Response.ok()
                 .entity(labs.stream().filter(lab -> lab.getDiscipline().getId() == id)
                         .filter(lab -> lab.getDifficulty().equals(Difficulty.VERY_HARD))
@@ -48,7 +55,7 @@ public class ServiceBean {
         if (currentLevel - steps < 0) throw new DecreaseDifficultyException("Impossible to decrease on this step");
 
         lab.setDifficulty(Difficulty.getDifficultyByLevel(currentLevel - steps));
-        client.target(URI_LABS+ "/" + lab.getId()).request(MediaType.APPLICATION_JSON ).put(Entity.entity(
+        client.target(URI_LABS + "/" + lab.getId()).request(MediaType.APPLICATION_JSON).put(Entity.entity(
                 LabDTO.builder()
                         .id(lab.getId())
                         .name(lab.getName())

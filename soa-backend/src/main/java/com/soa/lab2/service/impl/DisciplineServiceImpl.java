@@ -2,6 +2,7 @@ package com.soa.lab2.service.impl;
 
 import com.soa.lab2.data.dto.DisciplineDTO;
 import com.soa.lab2.exception.AlreadyExistsException;
+import com.soa.lab2.exception.NotFoundException;
 import com.soa.lab2.model.Discipline;
 import com.soa.lab2.repository.DisciplineRepository;
 import com.soa.lab2.service.DisciplineService;
@@ -39,6 +40,11 @@ public class DisciplineServiceImpl implements DisciplineService {
             throw new AlreadyExistsException("Discipline with this name already exists");
         }
         return discipline;
+    }
+
+    @Override
+    public Discipline getById(Integer id) {
+        return this.disciplineRepository.findById(id).orElseThrow(()-> new NotFoundException("There is no such discipline"));
     }
 
     @Override

@@ -4,7 +4,7 @@ import {Discipline, Lab} from "../../../types/LabType";
 import {MatDialog} from "@angular/material/dialog";
 import {DisciplineFormComponent} from "../discipline-form/discipline-form.component";
 import {HttpService} from "../../../services/http.service";
-import {DISCIPLINE_URI} from "../../../../data/api";
+import {DISCIPLINE_SECOND_SERVICE_URI, DISCIPLINE_URI} from "../../../../data/api";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatPaginator} from "@angular/material/paginator";
 import {SuggestionPopupComponent} from "../../../common/suggestion-popup/suggestion-popup.component";
@@ -86,7 +86,7 @@ export class DisciplineComponent implements OnInit {
   }
 
   clickHardcoreLabs(discipline: Discipline) {
-    this._http.getData<Lab[]>(`http://localhost:41549/soa-backend-additional-service-1.0-SNAPSHOT/bars/api/v1/disciplines/${discipline.id}/get-hardcore`)
+    this._http.getData<Lab[]>(DISCIPLINE_SECOND_SERVICE_URI + `/disciplines/${discipline.id}/get-hardcore`)
       .subscribe((res: Lab[]) => {
         this.dialog.open(HardcoreLabsPopupComponent, {
           data: res.filter(res => res.difficulty == "VERY_HARD").slice(0, 10),

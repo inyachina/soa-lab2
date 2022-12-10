@@ -3,10 +3,12 @@ package com.soa.lab2.repository;
 import com.soa.lab2.model.Discipline;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface DisciplineRepository extends CrudRepository<Discipline, Integer> {
     List<Discipline> findAll();
 
@@ -14,7 +16,7 @@ public interface DisciplineRepository extends CrudRepository<Discipline, Integer
 
     Discipline save(Discipline discipline);
 
-    Optional<Discipline> getById(Integer id);
+    Optional<Discipline> findById(Integer id);
 
     Optional<Discipline> getByName(String id);
 

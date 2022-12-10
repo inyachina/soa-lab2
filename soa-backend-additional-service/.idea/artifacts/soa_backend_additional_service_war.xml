@@ -9,7 +9,7 @@
         <unpackNestedArchives>false</unpackNestedArchives>
       </options>
     </properties>
-    <root id="archive" name="soa-backend-discipline-service-1.0-SNAPSHOT.war">
+    <root id="archive" name="soa-additional-service-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="soa-backend-additional-service:war exploded" />
     </root>
   </artifact>

@@ -7,7 +7,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/api/v1")
-public class DisciplineResource {
+public class AdditionalServiceResource {
     @EJB
     ServiceBean serviceBean;
 

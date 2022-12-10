@@ -2,30 +2,25 @@ package com.soa.lab2.contoller;
 
 import com.soa.lab2.data.dto.LabDTO;
 import com.soa.lab2.model.Lab;
-import com.soa.lab2.service.impl.DisciplineServiceImpl;
 import com.soa.lab2.service.impl.LabsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@Validated
 @RequestMapping("/api/v1/labs")
 @Slf4j
 public class LabsController {
     private LabsServiceImpl labsService;
-    private DisciplineServiceImpl disciplineService;
 
     @Autowired
-    public LabsController(LabsServiceImpl labsService, DisciplineServiceImpl disciplineService) {
+    public LabsController(LabsServiceImpl labsService) {
         this.labsService = labsService;
-        this.disciplineService = disciplineService;
     }
 
     @GetMapping

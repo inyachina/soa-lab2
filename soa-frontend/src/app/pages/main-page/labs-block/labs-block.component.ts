@@ -36,26 +36,28 @@ export class LabsBlockComponent implements OnInit {
 
 
   public getLabs() {
-    this._http.getData<number>(LABS_URI + '/amount').subscribe((res) => {
-      this.labAmount = res;
-    })
-    this._http.getData<Lab[]>(LABS_URI, {
-      page: this.pageIndex,
-      size: this.pageSize,
-      sort: this.sort || null,
-      filter: this.filter || null,
-    }).subscribe((res) => {
-      if (!res) {
+    this._http.getData<number>(LABS_URI + '/amount').subscribe((amount) => {
+      if (!amount) {
         this.labs = [];
-        return
+        return;
       }
+      this.labAmount = amount;
 
-      this.labs = res;
-      if (res.length < this.pageSize) {
-        this.labAmount = res.length;
-      }
-      this._cdr.markForCheck();
-    })
+      this._http.getData<Lab[]>(LABS_URI, {
+        page: this.pageIndex,
+        size: this.pageSize,
+        sort: this.sort || null,
+        filter: this.filter || null,
+      }).subscribe((labs) => {
+        if (!labs) return
+
+        this.labs = labs;
+        if (this.filter && (labs.length < this.pageSize)) {
+          this.labAmount = labs.length;
+        }
+        this._cdr.markForCheck();
+      })
+    });
   }
 
   public clickAddButton() {

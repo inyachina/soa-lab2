@@ -31,6 +31,12 @@ public class DisciplineController {
         else return ResponseEntity.ok().body(disciplines);
     }
 
+    @GetMapping("/{id}")
+    private ResponseEntity getDiscipline(@PathVariable Integer id) {
+        log.info("Processing get discipline id:{} request", id);
+        return ResponseEntity.ok().body(this.disciplineService.getById(id));
+    }
+
     @GetMapping("/amount")
     private ResponseEntity getDisciplinesAmount() {
         log.info("Processing get disciplines amount request");

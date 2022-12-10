@@ -1,9 +1,9 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Injector, Input} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {DifficultyType, Discipline, Lab, LabFormGroup, LabMapperDTO} from "../../../types/LabType";
+import {Discipline, Lab, LabFormGroup, LabMapperDTO} from "../../../types/LabType";
 import {map, Observable} from "rxjs";
 import {HttpService} from "../../../services/http.service";
-import {DISCIPLINE_URI, LABS_URI} from "../../../../data/api";
+import {DISCIPLINE_SECOND_SERVICE_URI, DISCIPLINE_URI, LABS_URI} from "../../../../data/api";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {SuggestionPopupComponent} from "../../../common/suggestion-popup/suggestion-popup.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -30,7 +30,7 @@ export class LabForm implements AfterViewInit {
     {
       name: [null, Validators.required],
       x: [null, Validators.compose([Validators.required, Validators.max(295)])],
-      y: [null , Validators.min(0)],
+      y: [null, Validators.min(0)],
       creationDate: [null],
       minimalPoint: [null, Validators.compose([Validators.required, Validators.min(0)])],
       personalQualitiesMaximum: [null, Validators.compose([Validators.required, Validators.min(0)])],
@@ -98,13 +98,13 @@ export class LabForm implements AfterViewInit {
 
       this._http.deleteData(LABS_URI + `/${this.lab?.id}`)
         .subscribe(() => {
-          this._router.navigate([`/`], {
-            queryParams: {
-              tab: 'labs'
-            }
-          })
-        }
-      )
+            this._router.navigate([`/`], {
+              queryParams: {
+                tab: 'labs'
+              }
+            })
+          }
+        )
     })
   }
 
@@ -128,13 +128,18 @@ export class LabForm implements AfterViewInit {
   isDisabledEditButton = () => this.initialState === JSON.stringify(this.form.getRawValue())
 
 
-  // decreaseDifficulty() {
-  //   this._dialog.open(LevelPopupComponent).afterClosed().subscribe((res) => {
-  //     if (!res) return;
-  //
-  //     this._http.postData()
-  //   })
-  // }
+  decreaseDifficulty() {
+    this._dialog.open(LevelPopupComponent, {
+      data: this.lab?.difficulty
+    }).afterClosed().subscribe((step: number) => {
+      if (!step) return;
 
-  isDisabledDecreaseButton = () => this.lab?.difficulty == "VERY_EASY" ;
+      this._http.postData<Lab>(`${DISCIPLINE_SECOND_SERVICE_URI}/labwork/${this.lab?.id}/difficulty/decrease/${step}`).subscribe((lab) => {
+          this.form.controls.difficulty.setValue(lab.difficulty);
+          this._cdr.markForCheck();
+        })
+    })
+  }
+
+  isDisabledDecreaseButton = () => this.lab?.difficulty == "VERY_EASY";
 }

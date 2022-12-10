@@ -101,13 +101,14 @@
     </button>
 
     <div class="flex_container__space">
-<!--      <button-->
-<!--        mat-raised-button-->
-<!--        [disabled]="isDisabledDecreaseButton()"-->
-<!--        (click)="decreaseDifficulty()"-->
-<!--      >-->
-<!--        Decrease difficulty-->
-<!--      </button>-->
+      <button
+        mat-raised-button
+        [style.visibility]="this.lab?.difficulty == 'VERY_EASY' ? 'hidden' : 'visible'"
+        [disabled]="isDisabledDecreaseButton()"
+        (click)="decreaseDifficulty()"
+      >
+        Decrease difficulty
+      </button>
       <div
         class="edit_buttons spa"
         *ngIf="isEditMode">
